@@ -21,7 +21,7 @@
 		<div id="layerswitcher"></div>
 		<div style="position:absolute; bottom:48px; left:12px; width:700px; cursor:pointer;">
 			<img src="./resources/icons/OSM-Logo-32px.png" height="32px" title="alle daten..." onClick="showLicense()">
-			<img src="./resources/icons/somerights20.png" height="30px" title="Diese Seite ist unter der Lizenz Creative Commons Attribution-ShareAlike 2.0 verfügbar" onClick="showLicense()">
+			<img src="./resources/icons/somerights20.png" height="30px" title="This work is licensed under the Creative Commons Attribution-ShareAlike 2.0 License" onClick="showLicense()">
 		</div>
 		<div id="actionDialog">
             <br>

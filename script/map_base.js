@@ -34,7 +34,7 @@ function showActionDialog(header, htmlText) {
 	var content = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\">";
 	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/action/close.png\" onClick=\"closeActionDialog();\"></td></tr>";
 	content += "<tr><td colspan=\"2\">" + htmlText + "</td></tr>";
-	content += "<tr><td></td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"Schließen\" onclick=\"closeActionDialog();\"></td></tr>";
+	content += "<tr><td></td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"Close\" onclick=\"closeActionDialog();\"></td></tr>";
 	content += "</table>";
 	document.getElementById("actionDialog").style.visibility = 'visible';
 	document.getElementById("actionDialog").innerHTML = content;
@@ -61,7 +61,7 @@ function closeActionDialog() {
 		htmlText += "<tr style=\"cursor:pointer;\" onmouseover=\"this.style.backgroundColor = '#ADD8E6';\"onmouseout=\"this.style.backgroundColor = '#FFF';\" onclick=\"jumpTo(" + placeLon + ", " + placeLat + ", " + zoom + ");\"><td  valign=\"top\"><b>" + placeName + "</b></td><td>" + description + "</td></tr>";
 	}
 	htmlText += "</table>";
-	showActionDialog("Suchergebnisse", htmlText);
+	showActionDialog("Search results", htmlText);
 }
 
 function drawmap() {
