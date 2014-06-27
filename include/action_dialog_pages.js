@@ -1,5 +1,5 @@
 // About Page
-var aboutDialog_en = "<b>OpenNauticalChart</b><br>Version: 0.0.1<br>Date: 25.06.2014<br>";
+var aboutDialog_en = "<b>OpenNauticalChart</b><br>Version: 0.0.1<br>Date: 27.06.2014<br>";
 
 // License Page
 var licenseDialog_en = "<table border=\"0\" cellpadding=\"5\"><tr><td><img alt=\"CC by SA\" src=\"./resources/icons/somerights20.png\" height=\"30\" border=\"0\"></td>";

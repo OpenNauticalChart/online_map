@@ -1,5 +1,5 @@
 // AJAX Nominatim Call
-// 11.01.2014
+// 27.06.2014
 // Olaf Hannemann
 
 function GetXmlHttpObject() {
@@ -26,14 +26,10 @@ function GetXmlHttpObject() {
 
 function ajax(url, callback, infotext) {
     var xmlhttp = GetXmlHttpObject();
-    //alert(url);
     if (xmlhttp) {
-        //alert('doit');
         xmlhttp.open("GET", url, true);
         xmlhttp.onreadystatechange=function(){
-            //alert('readyState = ' + xmlhttp.readyState + ' / status = ' + xmlhttp.status);
             if ( xmlhttp.readyState == 4  ) {
-                //alert(xmlhttp.responseText);
                 callback(xmlhttp, infotext);
             }
         }
@@ -57,3 +53,23 @@ function nominatim_callback(xmlHttp, infotext) {
         }
     }
 }
+
+// Show search results in dialog window
+ function addSearchResults(xmlHttp) {
+	var items = xmlHttp.responseXML.getElementsByTagName("place");
+	var placeName, description, placeLat, placeLon;
+	var buff, pos;
+	var htmlText = "<table border=\"0\" width=\"370px\">";
+	for(i = 0; i < items.length; i++) {
+		buff = xmlHttp.responseXML.getElementsByTagName('place')[i].getAttribute('display_name');
+		placeLat = xmlHttp.responseXML.getElementsByTagName('place')[i].getAttribute('lat');
+		placeLon = xmlHttp.responseXML.getElementsByTagName('place')[i].getAttribute('lon');
+		pos = buff.indexOf(",");
+		placeName = buff.substring(0, pos);
+		description = buff.substring(pos +1).trim();
+		htmlText += "<tr style=\"cursor:pointer;\" onmouseover=\"this.style.backgroundColor = '#ADD8E6';\"onmouseout=\"this.style.backgroundColor = '#FFF';\" onclick=\"jumpTo(" + placeLon + ", " + placeLat + ", " + zoom + ");\"><td  valign=\"top\"><b>" + placeName + "</b></td><td>" + description + "</td></tr>";
+	}
+	htmlText += "</table>";
+	showActionDialog(localize("%search_results", "Search results"), htmlText);
+}
+

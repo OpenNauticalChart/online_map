@@ -7,12 +7,19 @@ var lon = 11.6540;
 var lat = 54.1530;
 var zoom = 10;
 
-// last zoomlevel of the map
-var oldZoom=0;
-
 // Layers
 var layer_pois;
 var layer_seamarks;
+
+// Look up translation for given string
+var localize = function (string, fallback) {
+	var localized = string.toLocaleString();
+	var retValue = fallback;
+	if (localized !== string) {
+		retValue = localized;
+	} 
+	return retValue;
+};
 
 // Load map for the first time
 function init() {
@@ -27,6 +34,15 @@ function init() {
 		lon = buffLon;
 	}
 	drawmap();
+	setLanguageStrings ();
+}
+
+// Add translation to dialogs
+function setLanguageStrings () {
+	// Help menu
+	document.getElementById("menu_help").innerHTML = localize("%help", "Help");
+	document.getElementById("menu_license").innerHTML = localize("%license", "License");
+	document.getElementById("menu_about").innerHTML = localize("%about", "About");
 }
 
  // Show dialog window
@@ -34,7 +50,7 @@ function showActionDialog(header, htmlText) {
 	var content = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\">";
 	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/action/close.png\" onClick=\"closeActionDialog();\"></td></tr>";
 	content += "<tr><td colspan=\"2\">" + htmlText + "</td></tr>";
-	content += "<tr><td></td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"Close\" onclick=\"closeActionDialog();\"></td></tr>";
+	content += "<tr><td></td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"closeActionDialog();\"></td></tr>";
 	content += "</table>";
 	document.getElementById("actionDialog").style.visibility = 'visible';
 	document.getElementById("actionDialog").innerHTML = content;
@@ -43,25 +59,6 @@ function showActionDialog(header, htmlText) {
 // Hide dialog window
 function closeActionDialog() {
 	document.getElementById("actionDialog").style.visibility = 'hidden';
-}
-
-// Show search results in dialog window
- function addSearchResults(xmlHttp) {
-	var items = xmlHttp.responseXML.getElementsByTagName("place");
-	var placeName, description, placeLat, placeLon;
-	var buff, pos;
-	var htmlText = "<table border=\"0\" width=\"370px\">";
-	for(i = 0; i < items.length; i++) {
-		buff = xmlHttp.responseXML.getElementsByTagName('place')[i].getAttribute('display_name');
-		placeLat = xmlHttp.responseXML.getElementsByTagName('place')[i].getAttribute('lat');
-		placeLon = xmlHttp.responseXML.getElementsByTagName('place')[i].getAttribute('lon');
-		pos = buff.indexOf(",");
-		placeName = buff.substring(0, pos);
-		description = buff.substring(pos +1).trim();
-		htmlText += "<tr style=\"cursor:pointer;\" onmouseover=\"this.style.backgroundColor = '#ADD8E6';\"onmouseout=\"this.style.backgroundColor = '#FFF';\" onclick=\"jumpTo(" + placeLon + ", " + placeLat + ", " + zoom + ");\"><td  valign=\"top\"><b>" + placeName + "</b></td><td>" + description + "</td></tr>";
-	}
-	htmlText += "</table>";
-	showActionDialog("Search results", htmlText);
 }
 
 function drawmap() {
@@ -74,7 +71,7 @@ function drawmap() {
 			click: mapEventClick
 		},
 		controls: [
-			new OpenLayers.Control.Permalink(),
+			//new OpenLayers.Control.Permalink(),
 			new OpenLayers.Control.Navigation(),
 			new OpenLayers.Control.ScaleLine(),
 			//new OpenLayers.Control.LayerSwitcher(),
