@@ -2,7 +2,7 @@
  Javascript Utilities
  author Olaf Hannemann
  license GPL V3
- version 0.1.2
+ version 0.1.3
 
  This file is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -22,16 +22,33 @@ function setCookie(key, value) {
 }
 
 function getCookie(argument) {
+	var retValue = "-1"
 	var buff = document.cookie;
 	var args = buff.split(";");
 	for(i = 0; i < args.length; i++) {
 		var a = args[i].split("=");
 		if(trim(a[0]) == argument) {
-			return trim(a[1]);
+			retValue = trim(a[1]);
 		}
 	}
 
-	return "-1";
+	return retValue;
+}
+
+function getArgument(argument) {
+	var retValue = "-1"
+	if(window.location.search != "") {
+		// We have parameters
+		var undef = document.URL.split("?");
+		var args = undef[1].split("&");
+		for(i = 0; i < args.length; i++) {
+			var a = args[i].split("=");
+			if(a[0] == argument) {
+				retValue = a[1];
+			}
+		}
+	}
+	return retValue;
 }
 
 function checkKeyReturn(e) {

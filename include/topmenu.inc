@@ -7,7 +7,7 @@
 		</li>
 		<li>
 			<a>
-				<img alt="Search" src="./resources/action/find.png" width="22" height="22" border="0"  onClick="nominatim(document.getElementById('searchinputbox').value)">
+				<img alt="Search" src="./resources/dialog/find.png" width="22" height="22" border="0"  onClick="nominatim(document.getElementById('searchinputbox').value)">
 				<input id="searchinputbox" name="searchtext" type="text"
 					size="10" maxlength="40"
 					style="height: 18px; border: 1px solid Black"
@@ -16,10 +16,22 @@
 			</a>
 		</li>
 		<li>
-			<a><img alt="Help" src="./resources/action/help.png" width="22" height="22" border="0"><span id="menu_help">Help</span></a>
+			<a><img alt="view" src="./resources/dialog/view.png" width="22" height="22" border="0"><span id="menu_view">View</span></a>
 			<ul class="sub_menu">
-				<li onClick="javascript:showLicense();"><a><img alt="CC by SA" src="./resources/action/Cc-sa-32px.png" width="22" height="22" border="0"><span id="menu_license">License</span></a></li>
-				<li onClick="javascript:showActionDialog(localize('%about', 'About'),  localize('%about_dialog', 'About'));"><a><img alt="info" src="./resources/action/info.png" width="22" height="22" border="0"><span id="menu_about">About</span></a></li>
+				<li onClick="showLayer(layer_seamarks)"><a><input type="checkbox" id="checkLayerSeaMarks"><img alt="seamarks" src="./resources/dialog/layer_seamarks.png" width="22" height="22" border="0"><span id="menu_layer_seamarks">Sea Marks</span></a></li>
+			</ul>
+		</li>
+		<li>
+			<a><img alt="tools" src="./resources/dialog/tools.png" width="22" height="22" border="0"><span id="menu_tools">Tools</span></a>
+			<ul class="sub_menu">
+				<li onClick="javascript:createPermalink();"><a><img alt="CC by SA" src="./resources/dialog/permalink.png" width="22" height="22" border="0"><span id="menu_permalink">Permalink</span></a></li>
+			</ul>
+		</li>
+		<li>
+			<a><img alt="Help" src="./resources/dialog/help.png" width="22" height="22" border="0"><span id="menu_help">Help</span></a>
+			<ul class="sub_menu">
+				<li onClick="javascript:showLicense();"><a><img alt="CC by SA" src="./resources/dialog/Cc-sa-32px.png" width="22" height="22" border="0"><span id="menu_license">License</span></a></li>
+				<li onClick="javascript:showActionDialog(localize('%about', 'About'),  localize('%about_dialog', 'About'));"><a><img alt="info" src="./resources/dialog/info.png" width="22" height="22" border="0"><span id="menu_about">About</span></a></li>
 			</ul>
 		</li>
 	</ul>

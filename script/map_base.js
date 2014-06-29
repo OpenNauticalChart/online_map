@@ -1,11 +1,10 @@
 // Main settings
 var version = "0.0.2";
-var date = "28.06.2014";
+var date = "29.06.2014";
 
 // Map settings
 var map;
 var popup;
-var arrayMaps = new Array();
 
 // Position and zoomlevel of the map  (will be overriden with permalink parameters or cookies)
 var lon = 11.6540;
@@ -28,9 +27,18 @@ var localize = function (string, fallback) {
 
 // Load map for the first time
 function init() {
-	var buffZoom = parseInt(getCookie("zoom"));
-	var buffLat = parseFloat(getCookie("lat"));
-	var buffLon = parseFloat(getCookie("lon"));
+	var buffZoom = -1;
+	var buffLat = -1;
+	var buffLon = -1;
+	if (getArgument("permalink") == "true") {
+		buffZoom = parseInt(getArgument("zoom"));
+		buffLat = parseFloat(getArgument("lat"));
+		buffLon = parseFloat(getArgument("lon"));
+	} else {
+		buffZoom = parseInt(getCookie("zoom"));
+		buffLat = parseFloat(getCookie("lat"));
+		buffLon = parseFloat(getCookie("lon"));
+	}
 	if (buffZoom != -1) {
 		zoom = buffZoom;
 	}
@@ -40,20 +48,42 @@ function init() {
 	}
 	drawmap();
 	setLanguageStrings ();
+	setLayerVisibility();
 }
 
 // Add translation to dialogs
 function setLanguageStrings () {
-	// Help menu
-	document.getElementById("menu_help").innerHTML = localize("%help", "Help");
-	document.getElementById("menu_license").innerHTML = localize("%license", "License");
 	document.getElementById("menu_about").innerHTML = localize("%about", "About");
+	document.getElementById("menu_help").innerHTML = localize("%help", "Help");
+	document.getElementById("menu_layer_seamarks").innerHTML = localize("%seamarks", "Sea marks");
+	document.getElementById("menu_license").innerHTML = localize("%license", "License");
+	document.getElementById("menu_permalink").innerHTML = localize("%permalink", "Permalink");
+	document.getElementById("menu_tools").innerHTML = localize("%tools", "Tools");
+	document.getElementById("menu_view").innerHTML = localize("%view", "View");
+}
+
+// Set visibility of the layers
+function setLayerVisibility() {
+	if (getArgument("permalink") == "true") {
+		if (getArgument(layer_seamarks.name) == "false") {
+			layer_seamarks.setVisibility(false);
+		}
+	} else {
+		if (getCookie(layer_seamarks.name) == "false") {
+			layer_seamarks.setVisibility(false);
+		}
+	}
+	setLayerCheckBoxes();
+}
+
+function setLayerCheckBoxes() {
+	document.getElementById("checkLayerSeaMarks").checked = (layer_seamarks.getVisibility() === true);
 }
 
  // Show dialog window
 function showActionDialog(header, htmlText) {
 	var content = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\">";
-	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/action/close.png\" onClick=\"closeActionDialog();\"></td></tr>";
+	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/dialog/close.png\" onClick=\"closeActionDialog();\"></td></tr>";
 	content += "<tr><td colspan=\"2\">" + htmlText + "</td></tr>";
 	content += "<tr><td></td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"closeActionDialog();\"></td></tr>";
 	content += "</table>";
@@ -73,6 +103,18 @@ function showLicense() {
 	content  += "</tr><tr><td height=\"5\" class=\"normal\" colspan=\"2\"><hr></td></tr><tr><td><img alt=\OSM-Logo\" src=\"resources/icons/OSM-Logo-44px.png\" height=\"44\" border=\"0\"></td>";
 	content  += "<td>" + localize("%license_dialog_osm", "All base layer data originate from the") + " <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap-" +  localize('%project', 'Project') + "</a></td></tr>";
 	showActionDialog(localize('%license', 'License'),  content);
+}
+
+// Toggle visibility of given layer
+function showLayer(layer) {
+	if (layer.visibility) {
+		layer.setVisibility(false);
+		setCookie( layer.name, "false");
+	} else {
+		layer.setVisibility(true);
+		setCookie( layer.name, "true");
+	}
+	setLayerCheckBoxes();
 }
 
 function drawmap() {
@@ -167,4 +209,12 @@ function mapEventClick(event) {
 	if (popup) {
 		map.removePopup(popup);
 	}
+}
+
+// Create a permalink and open it in the browser
+function createPermalink() {
+	var mapPermalink = location.protocol + '//' + location.host + location.pathname;
+	mapPermalink += "?permalink=true&zoom=" + zoom + "&lat=" +lat + "&lon=" + lon;
+	mapPermalink += "&" + layer_seamarks.name + "=" + document.getElementById("checkLayerSeaMarks").checked;
+	window.location.href = mapPermalink;
 }
