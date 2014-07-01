@@ -1,19 +1,3 @@
-/******************************************************************************
- Javascript Utilities
- author Olaf Hannemann
- license GPL V3
- version 0.1.3
-
- This file is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- This file is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License (http://www.gnu.org/licenses/)for more details.
- ******************************************************************************/
 
 function setCookie(key, value) {
 	var expireDate = new Date;
@@ -31,7 +15,6 @@ function getCookie(argument) {
 			retValue = trim(a[1]);
 		}
 	}
-
 	return retValue;
 }
 
@@ -43,8 +26,8 @@ function getArgument(argument) {
 		var args = undef[1].split("&");
 		for(i = 0; i < args.length; i++) {
 			var a = args[i].split("=");
-			if(a[0] == argument) {
-				retValue = a[1];
+			if( trim(a[0]) == argument) {
+				retValue = trim(a[1]);
 			}
 		}
 	}
@@ -55,7 +38,6 @@ function checkKeyReturn(e) {
 	if (e.keyCode == 13) {
 		return true;
 	}
-
 	return false;
 }
 
@@ -93,6 +75,12 @@ function convert2Locode(buffer) {
 	return buffer
 }
 
+function format2FixedLenght(number, length, fraclength) {
+	var text = number.toFixed(fraclength);
+	while (text.length < length) text = "0"+text;
+	return text;
+}
+
 function loadXMLDoc(name) {
 	if (window.XMLHttpRequest) {
 		xhttp=new XMLHttpRequest();
@@ -101,6 +89,5 @@ function loadXMLDoc(name) {
 	}
 	xhttp.open("GET",name,false);
 	xhttp.send();
-
 	return xhttp.responseXML;
 } 

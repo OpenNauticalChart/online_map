@@ -1,5 +1,5 @@
 // Main settings
-var version = "0.0.2";
+var version = "0.0.3";
 var date = "29.06.2014";
 
 // Map settings
@@ -14,6 +14,7 @@ var zoom = 10;
 // Layers
 var layer_pois;
 var layer_seamarks;
+var layer_grid;
 
 // Look up translation for given string
 var localize = function (string, fallback) {
@@ -55,6 +56,7 @@ function init() {
 function setLanguageStrings () {
 	document.getElementById("menu_about").innerHTML = localize("%about", "About");
 	document.getElementById("menu_help").innerHTML = localize("%help", "Help");
+	document.getElementById("menu_layer_coordinate_grid").innerHTML = localize("%coordinate_grid", "Coordinate grid");
 	document.getElementById("menu_layer_seamarks").innerHTML = localize("%seamarks", "Sea marks");
 	document.getElementById("menu_license").innerHTML = localize("%license", "License");
 	document.getElementById("menu_permalink").innerHTML = localize("%permalink", "Permalink");
@@ -68,9 +70,15 @@ function setLayerVisibility() {
 		if (getArgument(layer_seamarks.name) == "false") {
 			layer_seamarks.setVisibility(false);
 		}
+		if (getArgument(layer_grid.name) == "false") {
+			layer_grid.setVisibility(false);
+		}
 	} else {
 		if (getCookie(layer_seamarks.name) == "false") {
 			layer_seamarks.setVisibility(false);
+		}
+		if (getCookie(layer_grid.name) == "false") {
+			layer_grid.setVisibility(false);
 		}
 	}
 	setLayerCheckBoxes();
@@ -78,6 +86,7 @@ function setLayerVisibility() {
 
 function setLayerCheckBoxes() {
 	document.getElementById("checkLayerSeaMarks").checked = (layer_seamarks.getVisibility() === true);
+	document.getElementById("checkLayerCordinateGrid").checked = (layer_grid.getVisibility() === true);
 }
 
  // Show dialog window
@@ -98,7 +107,7 @@ function closeActionDialog() {
 
 // Show the license dialog
 function showLicense() {
-	var content = "<table border=\"0\" cellpadding=\"5\"><tr><td><img alt=\"CC by SA\" src=\"./resources/icons/somerights20.png\" height=\"30\" border=\"0\"></td>";
+	var content = "<table border=\"0\" cellpadding=\"5\"><tr><td><img alt=\"CC by SA\" src=\"./resources/icons/CC-BY-SA_44px.png\" height=\"44\" border=\"0\"></td>";
 	content  += "<td>" + localize("%license_dialog_onc", "ONC - Data can be used freely under the terms of the") + " <br><a href=\"http://creativecommons.org/licenses/by-sa/2.0\" target=\"_blank\">Creative Commons Attribution-ShareAlike 2.0 " +  localize('%license', 'License') + "</a></td>";
 	content  += "</tr><tr><td height=\"5\" class=\"normal\" colspan=\"2\"><hr></td></tr><tr><td><img alt=\OSM-Logo\" src=\"resources/icons/OSM-Logo-44px.png\" height=\"44\" border=\"0\"></td>";
 	content  += "<td>" + localize("%license_dialog_osm", "All base layer data originate from the") + " <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap-" +  localize('%project', 'Project') + "</a></td></tr>";
@@ -127,11 +136,10 @@ function drawmap() {
 			click: mapEventClick
 		},
 		controls: [
-			//new OpenLayers.Control.Permalink(),
 			new OpenLayers.Control.Navigation(),
-			new OpenLayers.Control.ScaleLine(),
+			new OpenLayers.Control.ScaleLine({topOutUnits : "nmi", bottomOutUnits: "km", topInUnits: 'nmi', bottomInUnits: 'km', maxWidth: '40'}),
 			//new OpenLayers.Control.LayerSwitcher(),
-			new OpenLayers.Control.MousePosition(),
+			new OpenLayers.Control.MousePositionDM(),
 			new OpenLayers.Control.OverviewMap(),
 			new OpenLayers.Control.PanZoomBar()],
 			maxExtent:
@@ -142,22 +150,14 @@ function drawmap() {
 	});
 
 	// Add Layers to map-------------------------------------------------------------------------------------------------------
-	// Mapnik
 	var layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
-	layer_seamarks = new OpenLayers.Layer.TMS("seamarks", "http://t1.openseamap.org/seamark/",
-                    { layerId: 3, numZoomLevels: 19, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true});
-	// Pois
-	layer_pois = new OpenLayers.Layer.Vector("pois", { 
-		visibility: true,
-		projection: proj4326, 
-		displayOutsideMaxExtent:true
-	});
-	map.addLayers([layer_mapnik, layer_seamarks, layer_pois]);
-
+	layer_seamarks = new OpenLayers.Layer.TMS("seamarks", "http://t1.openseamap.org/seamark/", { layerId: 3, numZoomLevels: 19, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true});
+	layer_grid = new OpenLayers.Layer.GridWGS("coordinate_grid", {visibility: true, zoomUnits: zoomUnits	});
+	layer_pois = new OpenLayers.Layer.Vector("pois", { visibility: true, 	projection: proj4326,  displayOutsideMaxExtent:true	});
+	map.addLayers([layer_mapnik, layer_seamarks, layer_grid, layer_pois]);
 	if (!map.getCenter()) {
 		jumpTo(lon, lat, zoom);
 	}
-
 	// Add select tool for poi layers
 	selectControlPois = new OpenLayers.Control.SelectFeature([layer_pois], {onSelect: onFeatureSelectPoiLayers, onUnselect: onFeatureUnselectPoiLayers, hover: true});
 	map.addControl(selectControlPois);
@@ -166,11 +166,9 @@ function drawmap() {
 
 // Map event listener moved
 function mapEventMove(event) {
-	// Set cookie for remembering lat lon values
+	// Set cookies for remembering lat lon values
 	setCookie("lat", y2lat(map.getCenter().lat).toFixed(5));
 	setCookie("lon", x2lon(map.getCenter().lon).toFixed(5));
-	
-	//refreshTelecom();
 }
 
 // Map event listener Zoomed
@@ -216,5 +214,6 @@ function createPermalink() {
 	var mapPermalink = location.protocol + '//' + location.host + location.pathname;
 	mapPermalink += "?permalink=true&zoom=" + zoom + "&lat=" +lat + "&lon=" + lon;
 	mapPermalink += "&" + layer_seamarks.name + "=" + document.getElementById("checkLayerSeaMarks").checked;
+	mapPermalink += "&" + layer_grid.name + "=" + document.getElementById("checkLayerCordinateGrid").checked;
 	window.location.href = mapPermalink;
 }

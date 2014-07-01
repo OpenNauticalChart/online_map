@@ -1,23 +1,30 @@
-/******************************************************************************
- Javascript OpenLayers map_utils
- author Olaf Hannemann
- license GPL V3
- version 0.1.1
-
- This file is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- This file is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License (http://www.gnu.org/licenses/) for more details.
- ******************************************************************************/
-
 // Projections-----------------------------------------------------------------
 var projMerc = new OpenLayers.Projection("EPSG:900913");
 var proj4326 = new OpenLayers.Projection("EPSG:4326");
+
+// Zoom------------------------------------------------------------------------
+var zoomUnits= [
+	30*3600,	// zoom=0
+	30*3600,
+	15*3600,
+	10*3600,
+	5*3600,
+	5*3600,
+	2*3600,
+	1*3600,
+	30*60,
+	20*60,
+	10*60,		// zoom=10
+	5*60,
+	2*60,
+	1*60,
+	30,
+	30,
+	12,
+	6,
+	6,
+	3			// zoom=19
+];
 
 // Transformations-------------------------------------------------------------
 function Lon2Merc(value) {
@@ -89,3 +96,132 @@ function getTileURL(bounds) {
 		return url+path;
 	}
 }
+
+// OpenLayers tweaking---------------------------------------------------------
+
+OpenLayers.Control.MousePositionDM = OpenLayers.Class (OpenLayers.Control.MousePosition, {
+
+	formatOutput: function (lonLat) {
+		var ns = lonLat.lat >= 0 ? 'N' : 'S';
+		var we = lonLat.lon >= 0 ? 'E' : 'W';
+		var lon_m = Math.abs(lonLat.lon*60).toFixed(3);
+		var lat_m = Math.abs(lonLat.lat*60).toFixed(3);
+		var lon_d = Math.floor (lon_m/60);
+		var lat_d = Math.floor (lat_m/60);
+		lon_m -= lon_d*60;
+		lat_m -= lat_d*60;
+
+		return	"Zoom:" + zoom + " " + ns + lat_d + "&#176;" + format2FixedLenght(lat_m,6,3) + "'" + "&#160;" +
+			we + lon_d + "&#176;" + format2FixedLenght(lon_m,6,3) + "'" ;
+       	},
+
+	CLASS_NAME:"OpenLayers.Control.MousePositionDM"
+    }
+);
+
+OpenLayers.Layer.GridWGS = OpenLayers.Class (OpenLayers.Layer.Vector, {
+	initialize: function (name, options){
+		OpenLayers.Layer.Vector.prototype.initialize.apply(this, [name, options]);
+	},
+	gridSizeText: null,
+	gridSizeDiv: null,
+	zoomUnits: null,
+	getGridUnit: function (distance) {
+		if (this.zoomUnits) return this.zoomUnits[this.map.zoom];
+		for (var i=0; i<this.gridUnits.length; i++) {
+			if (distance<this.gridUnits[i])
+				return this.gridUnits[i];
+		}
+		return null;
+	},
+	gridUnits: [
+		//3,		// 0.05'
+		6, 12, 30,	// 0.1'  0.2'  0.5'
+		1*60, 2*60, 3*60, 5*60, 10*60, 20*60, 30*60,
+		1*3600, 2*3600, 3*3600, 4*3600, 6*3600, 10*3600, 15*3600, 30*3600, 45*3600],
+
+	gridPixelDistance: 100,
+
+	dd: function (n) {
+		return parseInt(n)>=10 ? n : '0'+n;
+	},
+
+	formatGridSize: function (s) {
+		var h = Math.floor(s/3600);
+		var m = s%3600/60;
+		return (h?h+"°":"")+(m?m+"'":"");
+	},
+
+	formatDegrees: function (s, unit) {
+		return Math.floor(s/3600) + "°"
+			+ (unit%3600?this.dd(s%3600/60)+"'":"")
+	},
+
+	moveTo: function (bounds, zoomChanged, dragging) {
+		if (dragging) return;
+		this.destroyFeatures();
+		var mapBounds = bounds.clone().
+			transform(this.map.getProjectionObject(), this.map.displayProjection);
+		var seconds = 3600 * (mapBounds.top-mapBounds.bottom);
+		var unit = this.getGridUnit (seconds / this.map.getSize().h * this.gridPixelDistance);
+		if (this.gridSizeText && !this.gridSizeDiv) {
+			this.gridSizeDiv=OpenLayers.Util.createDiv(this.id);
+			this.gridSizeDiv.className='olControlGridWGS';
+			this.gridSizeDiv.style.zIndex=map.Z_INDEX_BASE['Control']+ map.controls.length;
+			this.gridSizeDiv.setAttribute("unselectable","on");
+			this.map.viewPortDiv.appendChild (this.gridSizeDiv);
+		}
+		if (this.gridSizeDiv) this.gridSizeDiv.style.display='none';
+		if (unit) {
+			var x1 = Math.max (-180.0*3600, Math.ceil  (3600 * mapBounds.left  / unit) * unit);
+			var x2 = Math.min (+180.0*3600, Math.floor (3600 * mapBounds.right / unit) * unit);
+			var y1 = Math.max ( -90.0*3600, Math.ceil  (3600 * mapBounds.bottom/ unit) * unit);
+			var y2 = Math.min ( +90.0*3600, Math.floor (3600 * mapBounds.top   / unit) * unit);
+			var features = [];
+			for (var x=x1; x<=x2; x+= unit) {
+				var p1 = new OpenLayers.LonLat (x/3600, Math.min(+85, mapBounds.top))
+					.transform(map.displayProjection, map.getProjectionObject());
+				var p2 = new OpenLayers.LonLat (x/3600, Math.max(-85, mapBounds.bottom))
+					.transform(map.displayProjection, map.getProjectionObject());
+				v1 = new OpenLayers.Feature.Vector ( new OpenLayers.Geometry.LineString( [
+					new OpenLayers.Geometry.Point (p1.lon, p1.lat),
+					new OpenLayers.Geometry.Point (p2.lon, p2.lat)
+				]));
+				v1.style={
+					label: this.formatDegrees (Math.abs(x), unit),
+					labelAlign: "lt",
+					strokeColor: "#666666",
+					strokeWidth: 1,
+					strokeOpacity: 0.8
+				};
+				features.push (v1);
+			}
+			for (var y=y1; y<=y2; y+=unit) {
+				var p1 = new OpenLayers.LonLat (Math.max(-180, mapBounds.left), y/3600)
+					.transform(map.displayProjection, map.getProjectionObject());
+				var p2 = new OpenLayers.LonLat (Math.min(+180, mapBounds.right), y/3600)
+					.transform(map.displayProjection, map.getProjectionObject());
+				v1 = new OpenLayers.Feature.Vector ( new OpenLayers.Geometry.LineString( [
+					new OpenLayers.Geometry.Point (p1.lon, p1.lat),
+					new OpenLayers.Geometry.Point (p2.lon, p2.lat)
+				]));
+				v1.style={
+					label: this.formatDegrees (Math.abs(y), unit),
+					labelAlign: "lb",
+					strokeColor: "#666666",
+					strokeWidth: 1,
+					strokeOpacity: 0.8
+				};
+				features.push (v1);
+			}
+			this.addFeatures(features);
+			if (this.gridSizeDiv) {
+				this.gridSizeDiv.innerHTML = OpenLayers.String.format(this.gridSizeText,
+					{grid: this.formatGridSize(unit)});
+				this.gridSizeDiv.style.display=null;
+			}
+		}
+		OpenLayers.Layer.Vector.prototype.moveTo.apply(this,arguments);
+	},
+	CLASS_NAME: "OpenLayers.Layer.GridWGS"
+});

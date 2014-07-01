@@ -3,6 +3,7 @@ String.toLocaleString({
 "de": {
 "%about": "Über",
 "%close": "Schließen",
+"%coordinate_grid": "Koordinatengitter",
 "%help": "Hilfe",
 "%license": "Lizenz",
 "%permalink": "Permalink",
@@ -20,6 +21,7 @@ String.toLocaleString({
 "en": { 
 "%about": "About",
 "%close": "Close",
+"%coordinate_grid": "Coordinate grid",
 "%help": "Help",
 "%license": "License",
 "%permalink": "Permalink",

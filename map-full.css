@@ -37,6 +37,15 @@ img {
     display: none !important;
 }
 
+.olControlMousePositionDM {
+	bottom:0em;
+	right: 0em;
+	background-color: #FFF;
+	margin: 0; 
+	padding: 2px;
+	font-family: monospace;
+}
+
 /*
 	Top menu---------------------------------------------------------
 */
