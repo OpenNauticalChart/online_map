@@ -5,8 +5,8 @@
 		<title>OpenNauticalChart</title>
 		<meta name="AUTHOR" content="Olaf Hannemann" >
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<meta name="date" content="2014-27-06">
-		<link rel="SHORTCUT ICON" href="./resources/icons/plug_icon_16px.png">
+		<meta name="date" content="2014-01-07">
+		<link rel="SHORTCUT ICON" href="./resources/icons/ONC-Logo_16px.png">
 		<link rel="stylesheet" type="text/css" href="map-full.css">
 		<script type="text/javascript" src="./script/openlayers/OpenLayers.js"></script>
 		<script type="text/javascript" src="./script/json2.js"></script>
