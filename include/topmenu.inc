@@ -18,6 +18,7 @@
 		<li>
 			<a><img alt="view" src="./resources/dialog/view.png" width="22" height="22" border="0"><span id="menu_view">View</span></a>
 			<ul class="sub_menu">
+				<li><a href="weather_index.php"><img alt="weather" src="./resources/dialog/layer_weather.png" width="24" height="24" border="0"><span id="menu_layer_weather">Weather</span></a></li>
 				<li onClick="showLayer(layer_seamarks)"><a><input type="checkbox" id="checkLayerSeaMarks"><img alt="seamarks" src="./resources/dialog/layer_seamarks.png" width="22" height="22" border="0"><span id="menu_layer_seamarks">Sea Marks</span></a></li>
 				<li onClick="showLayer(layer_grid)"><a><input type="checkbox" id="checkLayerCordinateGrid"><img alt="grid" src="./resources/dialog/layer_grid.png" width="22" height="22" border="0"><span id="menu_layer_coordinate_grid">Coordinate grid</span></a></li>
 			</ul>

@@ -1,6 +1,10 @@
 <div id="topmenu" style="position:absolute; top:10px; left:12px;">
 	<ul>
-		<li><IMG src="./resources/icons/ONC-Logo.png" width="24" height="24" align="center" border="0"><span id="menu_nautical_chart">Nautical Chart</span></img></li>
+		<li>
+			<a href="./index.php">
+				<img alt="ONCLogo" src="./resources/icons/ONC-Logo.png" width="24" height="24" border="0"><span id="menu_nautical_chart">Nautical Chart</span></img>
+			</a>
+		</li>
 		<li>&nbsp;|&nbsp;</li>
 		<li id="buttonWind" onClick="showWind()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showWindLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkWind"/><IMG src="./resources/dialog/weather/WindIcon.png" width="24" height="24" align="center" border="0"><span id="menu_wind">Wind</span></img></li>
 		<li>&nbsp;&nbsp;</li>

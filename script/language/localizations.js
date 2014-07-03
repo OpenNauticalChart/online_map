@@ -13,6 +13,7 @@ String.toLocaleString({
 "%search_results": "Suchergebnisse",
 "%tools": "Werkzeuge",
 "%view": "Ansicht",
+"%weather": "Wetter",
 // Weather pages
 "%air_pressure": "Luftdruck",
 "%precipitation": "Niederschlag",
@@ -39,6 +40,7 @@ String.toLocaleString({
 "%search_results": "Search results",
 "%tools": "Tools",
 "%view": "View",
+"%weather": "Weather",
 // Weather pages
 "%air_pressure": "Air pressure",
 "%precipitation": "Precipitation",
