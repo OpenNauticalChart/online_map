@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="./script/openlayers/OpenLayers.js"></script>
 		<script type="text/javascript" src="./script/json2.js"></script>
 		<script type="text/javascript" src="./script/map_base.js"></script>
+		<script type="text/javascript" src="./script/download_map.js"></script>
 		<script type="text/javascript" src="./script/OpenStreetMap.js"></script>
 		<script type="text/javascript" src="./script/nominatim.js"></script>
 		<script type="text/javascript" src="./script/utilities.js"></script>
