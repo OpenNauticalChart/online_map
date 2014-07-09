@@ -7,9 +7,23 @@ function addMapDownload() {
 
 	var htmlText = "<table border=\"0\" width=\"240px\"  cellpadding=\"4\">";
 	htmlText += "<tr><td>" + localize('%name', 'Name') + "</td><td><div id=\"download_dialog_name\">" + localize('%please_select_chart', 'Please select chart') + "<br/></div></td></tr>";
-	htmlText += "<tr><td>" + localize('%format', 'Format') + ":</td><td><select id=\"mapFormat\"><option value=\"unknown\"/>" + localize('%unknown', 'Unknown') + ":<option value=\"png\"/>png<option value=\"cal\"/>cal<option value=\"kap\"/>kap<option value=\"WCI\"/>WCI<option value=\"kmz\"/>kmz<option value=\"jpr\"/>jpr</select></td></tr>";
+	htmlText += "<tr><td>" + localize('%format', 'Format') + ":</td><td><select id=\"mapFormat\" onchange=\"selChangedMapBmpFormat()\"><option value=\"unknown\"/>" + localize('%unknown', 'Unknown') + ":<option value=\"png\"/>png<option value=\"cal\"/>cal<option value=\"kap\"/>kap<option value=\"WCI\"/>WCI<option value=\"kmz\"/>kmz<option value=\"jpr\"/>jpr</select></td></tr>";
 	htmlText += "</table>";
-	showActionDialog(localize('%map_download', 'Download chart'), htmlText, "closeMapDownload()", true);
+	showActionDialog(localize('%map_download', 'Download chart'), htmlText, "closeMapDownload()", "downloadMap()");
+	getDownloadMapBmpFormat();
+}
+
+function selChangedMapBmpFormat() {
+	var format = document.getElementById("mapFormat").value;
+	// Set cookie for remembering the download format
+	setCookie("downloadMapBmpFormat", format);
+}
+
+function getDownloadMapBmpFormat() {
+	var buff = getCookie("downloadMapBmpFormat");
+	if (buff != "-1") {
+		document.getElementById("mapFormat").value = buff;
+	} 
 }
 
 function addDownloadlayer() {
@@ -75,7 +89,7 @@ function closeMapDownload() {
 	closeActionDialog();
 }
 
-function downloadMap(name) {
+function downloadMap() {
 	var format = document.getElementById("mapFormat").value;
 
 	if (format == "unknown") {

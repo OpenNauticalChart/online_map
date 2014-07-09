@@ -95,11 +95,17 @@ function setLayerCheckBoxes() {
  // Show dialog window
 function showActionDialog(header, htmlText, close_button, download_button) {
 	var content = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\">";
-	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/dialog/close.png\" onClick=\"closeActionDialog();\"></td></tr>";
+	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/dialog/close.png\" onClick=\"";
+	if (close_button) {
+		 content += close_button;
+	} else {
+		 content += "closeActionDialog()";
+	}
+	content += "\"></td></tr>";
 	content += "<tr><td colspan=\"2\">" + htmlText + "</td></tr>";
 	content += "<tr><td>";
 	if (download_button) {
-		content += "<input type=\"button\" id=\"buttonActionDlgDownload\" value=\"" + localize('%download', 'Download') + ":\" onclick=\"downloadMap()\" disabled=\"true\">";
+		content += "<input type=\"button\" id=\"buttonActionDlgDownload\" value=\"" + localize('%download', 'Download') + ":\" onclick=\"" + download_button + "\" disabled=\"true\">";
 	}
 	if (close_button) {
 		content +="</td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"" + close_button + ";\"></td></tr>";
@@ -116,7 +122,7 @@ function closeActionDialog() {
 	document.getElementById("actionDialog").style.visibility = 'hidden';
 }
 
-// Show the license dialog
+// Show the license dialog. FIXME: Needs to be put into an own html page
 function showLicense() {
 	var content = "<table border=\"0\" cellpadding=\"5\"><tr><td><img alt=\"CC by SA\" src=\"./resources/icons/CC-BY-SA_44px.png\" height=\"44\" border=\"0\"></td>";
 	content  += "<td>" + localize("%license_dialog_onc", "ONC - Data can be used freely under the terms of the") + " <br><a href=\"http://creativecommons.org/licenses/by-sa/2.0\" target=\"_blank\">Creative Commons Attribution-ShareAlike 2.0 " +  localize('%license', 'License') + "</a></td>";
