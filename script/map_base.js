@@ -76,6 +76,9 @@ function setLayerVisibility() {
 		if (getArgument(layer_grid.name) == "false") {
 			layer_grid.setVisibility(false);
 		}
+		if (getArgument("map_download") == "true") {
+			addMapDownload();
+		}
 	} else {
 		if (getCookie(layer_seamarks.name) == "false") {
 			layer_seamarks.setVisibility(false);
@@ -194,8 +197,8 @@ function drawmap() {
 	var layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
 	layer_seamarks = new OpenLayers.Layer.TMS("seamarks", "http://t1.openseamap.org/seamark/", { layerId: 3, numZoomLevels: 19, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true});
 	layer_grid = new OpenLayers.Layer.GridWGS("coordinate_grid", {visibility: true, zoomUnits: zoomUnits	});
-	//layer_pois = new OpenLayers.Layer.Vector("pois", { visibility: true, 	projection: proj4326,  displayOutsideMaxExtent:true	});
-	map.addLayers([layer_mapnik, layer_seamarks, layer_grid/*, layer_pois*/]);
+	layer_pois = new OpenLayers.Layer.Vector("pois", { visibility: true, 	projection: proj4326,  displayOutsideMaxExtent:true	});
+	map.addLayers([layer_mapnik, layer_seamarks, layer_grid, layer_pois]);
 	if (!map.getCenter()) {
 		jumpTo(lon, lat, zoom);
 	}
@@ -258,5 +261,8 @@ function createPermalink() {
 	mapPermalink += "?permalink=true&zoom=" + zoom + "&lat=" +lat + "&lon=" + lon;
 	mapPermalink += "&" + layer_seamarks.name + "=" + document.getElementById("checkLayerSeaMarks").checked;
 	mapPermalink += "&" + layer_grid.name + "=" + document.getElementById("checkLayerCordinateGrid").checked;
+	if (layer_download != -1) {
+		mapPermalink += "&map_download=true"
+	}
 	window.location.href = mapPermalink;
 }

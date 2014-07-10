@@ -30,7 +30,7 @@ function addDownloadlayer() {
 	var xmlDoc=loadXMLDoc("./gml/map_download.xml");
 
 	if (layer_download == -1) {
-		layer_download = new OpenLayers.Layer.Vector("Map Download", {visibility: true	});
+		layer_download = new OpenLayers.Layer.Vector("map_download", {visibility: true	});
 		map.addLayer(layer_download);
 		// Register featureselect for download tool
 		selectControl.addLayer(layer_download);
