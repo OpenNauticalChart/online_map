@@ -1,6 +1,6 @@
 // Main settings
 var version = "0.0.3";
-var date = "03.07.2014";
+var date = "11.07.2014";
 
 // Map settings
 var map;
@@ -51,6 +51,7 @@ function init() {
 	drawmap();
 	setLanguageStrings ();
 	setLayerVisibility();
+	//alert( loadTextDoc("./dialog_pages/map_license_de.html"));
 }
 
 // Add translation to dialogs
@@ -123,15 +124,6 @@ function showActionDialog(header, htmlText, close_button, download_button) {
 // Hide dialog window
 function closeActionDialog() {
 	document.getElementById("actionDialog").style.visibility = 'hidden';
-}
-
-// Show the license dialog. FIXME: Needs to be put into an own html page
-function showLicense() {
-	var content = "<table border=\"0\" cellpadding=\"5\"><tr><td><img alt=\"CC by SA\" src=\"./resources/icons/CC-BY-SA_44px.png\" height=\"44\" border=\"0\"></td>";
-	content  += "<td>" + localize("%license_dialog_onc", "ONC - Data can be used freely under the terms of the") + " <br><a href=\"http://creativecommons.org/licenses/by-sa/2.0\" target=\"_blank\">Creative Commons Attribution-ShareAlike 2.0 " +  localize('%license', 'License') + "</a></td>";
-	content  += "</tr><tr><td height=\"5\" class=\"normal\" colspan=\"2\"><hr></td></tr><tr><td><img alt=\OSM-Logo\" src=\"resources/icons/OSM-Logo-44px.png\" height=\"44\" border=\"0\"></td>";
-	content  += "<td>" + localize("%license_dialog_osm", "All base layer data originate from the") + " <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap-" +  localize('%project', 'Project') + "</a></td></tr>";
-	showActionDialog(localize('%license', 'License'),  content);
 }
 
 // Toggle visibility of given layer

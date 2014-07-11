@@ -81,13 +81,19 @@ function format2FixedLenght(number, length, fraclength) {
 	return text;
 }
 
-function loadXMLDoc(name) {
+function loadFile(name, format) {
+	var retValue = -1;
 	if (window.XMLHttpRequest) {
 		xhttp=new XMLHttpRequest();
 	} else {
 		xhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	xhttp.open("GET",name,false);
+	xhttp.open("GET", name, false);
 	xhttp.send();
-	return xhttp.responseXML;
+	if (format == "xml") {
+		retValue =  xhttp.responseXML;
+	} else {
+		retValue =  xhttp.responseText;
+	}
+	return retValue;
 } 

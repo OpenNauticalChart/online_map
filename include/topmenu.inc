@@ -33,7 +33,7 @@
 		<li>
 			<a><img alt="Help" src="./resources/dialog/help.png" width="22" height="22" border="0"><span id="menu_help">Help</span></a>
 			<ul class="sub_menu">
-				<li onClick="javascript:showLicense();"><a><img alt="CC by SA" src="./resources/dialog/Cc-sa-32px.png" width="22" height="22" border="0"><span id="menu_license">License</span></a></li>
+				<li onClick="javascript:showActionDialog(localize('%license', 'License'), loadFile('./dialog_pages/main_license/main_license_' + localize('%locale', 'en') + '.html', 'txt'));"><a><img alt="CC by SA" src="./resources/dialog/Cc-sa-32px.png" width="22" height="22" border="0"><span id="menu_license">License</span></a></li>
 				<li onClick="javascript:showActionDialog(localize('%about', 'About'),  localize('%about_dialog', 'About'));"><a><img alt="info" src="./resources/dialog/info.png" width="22" height="22" border="0"><span id="menu_about">About</span></a></li>
 			</ul>
 		</li>

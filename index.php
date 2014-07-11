@@ -23,8 +23,8 @@
 		<div id="map" style="position:absolute; bottom:0px; left:0px;"></div>
 		<div id="layerswitcher"></div>
 		<div style="position:absolute; bottom:48px; left:12px; width:700px; cursor:pointer;">
-			<img src="./resources/icons/OSM-Logo-32px.png" height="32px" title="All base layer data originate from the OpenStreetMap project" onClick="javascript:showLicense();">
-			<img src="./resources/icons/CC-BY-SA_32px.png" height="32px" title="This work is licensed under the Creative Commons Attribution-ShareAlike 2.0 License" onClick="javascript:showLicense();">
+			<img src="./resources/icons/OSM-Logo-32px.png" height="32px" title="All base layer data originate from the OpenStreetMap project" onClick="javascript:showActionDialog(localize('%license', 'License'), loadFile('./dialog_pages/main_license/main_license_' + localize('%locale', 'en') + '.html', 'txt'));">
+			<img src="./resources/icons/CC-BY-SA_32px.png" height="32px" title="This work is licensed under the Creative Commons Attribution-ShareAlike 2.0 License" onClick="javascript:showActionDialog(localize('%license', 'License'), loadFile('./dialog_pages/main_license/main_license_' + localize('%locale', 'en') + '.html', 'txt'));">
 		</div>
 		<div id="actionDialog">
             <br>

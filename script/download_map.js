@@ -27,7 +27,7 @@ function getDownloadMapBmpFormat() {
 }
 
 function addDownloadlayer() {
-	var xmlDoc=loadXMLDoc("./gml/map_download.xml");
+	var xmlDoc=loadFile("./gml/map_download.xml", "xml");
 
 	if (layer_download == -1) {
 		layer_download = new OpenLayers.Layer.Vector("map_download", {visibility: true	});
