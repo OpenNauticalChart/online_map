@@ -37,7 +37,7 @@
 				arrayTimeValues[7] = "<?=$utc->getWeatherUtc('27')?>";
 
 				var oldDate = "00";
-				var html = "<b>" + localize("%time_utc", "Time (UTC)") + "</b><br/><br/>";
+				var html = "<span><b>" + localize("%time_utc", "Time (UTC)") + "</b></span><br/><br/>";
 				var layer = 1;
 
 				for(i = 0; i < arrayTimeValues.length; i++) {
@@ -64,17 +64,13 @@
 		<div id="map" style="position:absolute; bottom:0px; left:0px;"></div>
 		<div id="layerswitcher"></div>
 		<div style="position:absolute; bottom:10px; left:12px; width:700px; cursor:pointer;">
-			<img src="./resources/icons/OSM-Logo-32px.png" height="32px" title="All base layer data originate from the OpenStreetMap project" onClick="javascript:showLicense();">
-			<img src="./resources/icons/CC-BY-SA_32px.png" height="32px" title="This work is licensed under the Creative Commons Attribution-ShareAlike 2.0 License" onClick="javascript:showLicense();">
-			<img src="./resources/icons/OpenPortGuideLogo_32.png" height="32px" title="Weather by OpenPortGuide" onClick="window.open('http://openportguide.org/wiki_/Main_Page')" />
+			<img src="./resources/icons/OSM-Logo-32px.png" height="32px" title="All base layer data originate from the OpenStreetMap project" onClick="javascript:showActionDialog(localize('%license', 'License'), loadFile('./dialog_pages/main_license/main_license_' + localize('%locale', 'en') + '.html', 'txt'));">
+			<img src="./resources/icons/CC-BY-SA_32px.png" height="32px" title="This work is licensed under the Creative Commons Attribution-ShareAlike 2.0 License" onClick="javascript:showActionDialog(localize('%license', 'License'), loadFile('./dialog_pages/main_license/main_license_' + localize('%locale', 'en') + '.html', 'txt'));">
+			<img src="./resources/icons/OpenPortGuideLogo_32.png" height="32px" title="Weather by OpenPortGuide" onClick="javascript:showActionDialog(localize('%license', 'License'), loadFile('./dialog_pages/main_license/main_license_' + localize('%locale', 'en') + '.html', 'txt'));">
 		</div>
-		<div id="actionDialog">
-            <br>
-        </div>
+		<div id="actionDialog"></div>
 		 <? include('./include/topmenu_weather.inc'); ?>
-		 <div id="timemenu" style="position:absolute; top:55px; left:12px;">
-			<h4>Time (UTC)</h4>
-		</div>
+		 <div id="timemenu" style="position:absolute; top:55px; left:12px;"></div>
 		<div id="comment" style="position:absolute; top:10px; right:12px;  visibility:hidden;">
 			<img src="./resources/map/WindScale.png"/>
 		</div>

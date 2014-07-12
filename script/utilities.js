@@ -34,11 +34,19 @@ function getArgument(argument) {
 	return retValue;
 }
 
+function placeDiv(divId, xPos, yPos) {
+	var element = document.getElementById(divId);
+	element.style.position = "absolute";
+	element.style.left = xPos+'px';
+	element.style.top = yPos+'px';
+}
+
 function checkKeyReturn(e) {
+	var retValue = false;
 	if (e.keyCode == 13) {
-		return true;
+		retValue = true;
 	}
-	return false;
+	return retValue;
 }
 
 function trim(buffer) {
@@ -71,13 +79,14 @@ function convert2Locode(buffer) {
 	buffer = buffer.replace('ä', 'a');
 	buffer = buffer.replace('ß', 'ss');
 	buffer = buffer.replace('ø', 'o');
-	
+
 	return buffer
 }
 
 function format2FixedLenght(number, length, fraclength) {
 	var text = number.toFixed(fraclength);
 	while (text.length < length) text = "0"+text;
+
 	return text;
 }
 

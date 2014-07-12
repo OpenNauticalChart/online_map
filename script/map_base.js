@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.3";
-var date = "11.07.2014";
+var version = "0.0.3.1";
+var date = "12.07.2014";
 
 // Map settings
 var map;
@@ -96,7 +96,7 @@ function setLayerCheckBoxes() {
 	document.getElementById("checkLayerCordinateGrid").checked = (layer_grid.getVisibility() === true);
 }
 
- // Show dialog window
+// Show dialog window
 function showActionDialog(header, htmlText, close_button, download_button) {
 	var content = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\">";
 	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/dialog/close.png\" onClick=\"";

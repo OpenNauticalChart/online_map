@@ -110,6 +110,39 @@ function setLanguageStrings () {
 	document.getElementById("menu_wave_height").innerHTML = localize("%wave_height", "Wave height");
 }
 
+// Show dialog window
+function showActionDialog(header, htmlText, close_button, download_button) {
+	var content = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\">";
+	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/dialog/close.png\" onClick=\"";
+	if (close_button) {
+		 content += close_button;
+	} else {
+		 content += "closeActionDialog()";
+	}
+	content += "\"></td></tr>";
+	content += "<tr><td colspan=\"2\">" + htmlText + "</td></tr>";
+	content += "<tr><td>";
+	if (download_button) {
+		content += "<input type=\"button\" id=\"buttonActionDlgDownload\" value=\"" + localize('%download', 'Download') + ":\" onclick=\"" + download_button + "\" disabled=\"true\">";
+	}
+	if (close_button) {
+		content +="</td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"" + close_button + ";\"></td></tr>";
+	} else {
+		content +="</td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"closeActionDialog();\"></td></tr>";
+	}
+	content += "</table>";
+	placeDiv("actionDialog", 12, 55)
+	document.getElementById("timemenu").style.visibility = 'hidden';
+	document.getElementById("actionDialog").style.visibility = 'visible';
+	document.getElementById("actionDialog").innerHTML = content;
+}
+
+// Hide dialog window
+function closeActionDialog() {
+	document.getElementById("timemenu").style.visibility = 'visible';
+	document.getElementById("actionDialog").style.visibility = 'hidden';
+}
+
 function drawmap() {
 	map = new OpenLayers.Map('map', {
 		projection: projMerc,
