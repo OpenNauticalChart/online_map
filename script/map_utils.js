@@ -1,3 +1,6 @@
+// Constants-------------------------------------------------------------------
+var earthRadius = 6371.221; //Km
+
 // Projections-----------------------------------------------------------------
 var projMerc = new OpenLayers.Projection("EPSG:900913");
 var proj4326 = new OpenLayers.Projection("EPSG:4326");
@@ -61,6 +64,26 @@ function lon2x(a) {
 	return plusfacteur(a);
 }
 
+function km2nm(a) {
+	return a * 0.540;
+}
+
+function lat2DegreeMinute(buffLat) {
+	var ns = buffLat >= 0 ? 'N' : 'S';
+	var lat_m = Math.abs(buffLat*60).toFixed(3);	
+	var lat_d = Math.floor (lat_m/60);
+	lat_m -= lat_d*60;
+	return ns + lat_d + "°" + format2FixedLenght(lat_m, 6, 3) + "'";
+}
+
+function lon2DegreeMinute(buffLon) {
+	var we = buffLon >= 0 ? 'E' : 'W';
+	var lon_m = Math.abs(buffLon*60).toFixed(3);
+	var lon_d = Math.floor (lon_m/60);
+	lon_m -= lon_d*60;
+	return we + lon_d + "°" + format2FixedLenght(lon_m, 6, 3) + "'";
+}
+
 function lonLatToMercator(ll) {
 	return new OpenLayers.LonLat(lon2x(ll.lon), lat2y(ll.lat));
 }
@@ -70,6 +93,34 @@ function shorter_coord(coord) {
 	return Math.round(coord*100000)/100000;
 }
 
+// Route handling--------------------------------------------------------------
+function getDistance(latA, latB, lonA, lonB) {
+	var dLat = OpenLayers.Util.rad(latB - latA);
+	var dLon = OpenLayers.Util.rad(lonB - lonA);
+	var lat1 = OpenLayers.Util.rad(latA);
+	var lat2 = OpenLayers.Util.rad(latB);
+
+	var a = Math.PI/2-lat2;
+	var b = Math.PI/2-lat1;
+	var c = Math.acos(Math.cos(a)*Math.cos(b)+Math.sin(a)*Math.sin(b)*Math.cos(dLon));
+	var d = km2nm(earthRadius * c);
+	
+	return d;
+}
+
+function getBearing(latA, latB, lonA, lonB) {
+	var dLat = OpenLayers.Util.rad(latB-latA);
+	var dLon = OpenLayers.Util.rad(lonB-lonA);
+	var lat1 = OpenLayers.Util.rad(latA);
+	var lat2 = OpenLayers.Util.rad(latB);
+	
+	var y = Math.sin(dLon) * Math.cos(lat2);
+	var x = Math.cos(lat1)*Math.sin(lat2) -
+		Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+	var brng = OpenLayers.Util.deg(Math.atan2(y, x));
+	
+	return (brng + 360) % 360;
+}
 
 // Utilities-------------------------------------------------------------------
 function jumpTo(lon, lat, zoom) {
