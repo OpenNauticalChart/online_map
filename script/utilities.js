@@ -83,6 +83,13 @@ function convert2Locode(buffer) {
 	return buffer
 }
 
+function convert2Text(buffer) {
+	buffer = buffer.replace(/%20/g, ' ');
+	buffer = buffer.replace(/&#176;/g, '°');
+
+	return buffer
+}
+
 function format2FixedLenght(number, length, fraclength) {
 	var text = number.toFixed(fraclength);
 	while (text.length < length) text = "0"+text;
@@ -106,3 +113,4 @@ function loadFile(name, format) {
 	}
 	return retValue;
 } 
+

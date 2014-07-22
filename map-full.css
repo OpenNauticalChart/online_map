@@ -47,33 +47,6 @@ img {
 }
 
 /*
-	Nautical route---------------------------------------------------------
-*/
-#routeAddLine {
-	cursor:pointer;
-}
-
-#routeAddLine:hover {
-	background-color: #ADD8E6;
-}
-
-#routeEditLine {
-	cursor:pointer;
-}
-
-#routeEditLine:hover {
-	background-color: #ADD8E6;
-}
-
-#routeNavigate {
-	cursor:pointer;
-}
-
-#routeNavigate:hover {
-	background-color: #ADD8E6;
-}
-
-/*
 	Top menu---------------------------------------------------------
 */
 #topmenu {

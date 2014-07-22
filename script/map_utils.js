@@ -93,6 +93,28 @@ function shorter_coord(coord) {
 	return Math.round(coord*100000)/100000;
 }
 
+// Vector layer utilities------------------------------------------------------
+function getLineSegments(line) {	
+	var numSegments = line.components.length - 1;
+	var segments = new Array(numSegments), point1, point2;
+	for(var i = 0; i < numSegments; ++i) {
+		point1 = line.components[i];
+		point2 = line.components[i + 1];
+		segments[i] = {
+			x1: point1.x,
+			y1: point1.y,
+			x2: point2.x,
+			y2: point2.y
+		};
+	}
+
+	return segments;
+}
+
+function getLineSegmentLength(segment) {
+	return Math.sqrt( Math.pow((segment.x2 -segment.x1),2) + Math.pow((segment.y2 -segment.y1),2) );
+}
+
 // Route handling--------------------------------------------------------------
 function getDistance(latA, latB, lonA, lonB) {
 	var dLat = OpenLayers.Util.rad(latB - latA);

@@ -1,5 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-       "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>OpenNauticalChart</title>
@@ -7,11 +6,13 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<meta name="date" content="2014-01-07">
 		<link rel="SHORTCUT ICON" href="./resources/icons/ONC-Logo_16px.png">
-		<link rel="stylesheet" type="text/css" href="map-full.css">
+		<link rel="stylesheet" type="text/css" href="./map-full.css">
 		<script type="text/javascript" src="./script/openlayers/OpenLayers.js"></script>
 		<script type="text/javascript" src="./script/json2.js"></script>
+		<script type="text/javascript" src="./script/prototype.js"></script>
 		<script type="text/javascript" src="./script/map_base.js"></script>
 		<script type="text/javascript" src="./script/download_map.js"></script>
+		<script type="text/javascript" src="./script/nautical_route/nautical_route.js"></script>
 		<script type="text/javascript" src="./script/OpenStreetMap.js"></script>
 		<script type="text/javascript" src="./script/nominatim.js"></script>
 		<script type="text/javascript" src="./script/utilities.js"></script>
@@ -29,6 +30,7 @@
 		<div id="actionDialog">
             <br>
         </div>
+         <a href="#"  id="download">download</a>
 		 <? include('./include/topmenu.inc'); ?>
 	</body>
 </html>

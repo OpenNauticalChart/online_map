@@ -5,9 +5,11 @@ String.toLocaleString({
 	"%locale": "de",
 	// Main
 	"%about": "Über",
+	"%bearing": "Kurs",
 	"%close": "Schließen",
+	"%coordinate": "Koordinate",
 	"%coordinate_grid": "Koordinatengitter",
-	"%distance": "Entfernung",
+	"%distance": "Distanz",
 	"%download": "Herunterladen",
 	"%finish": "Ziel",
 	"%format": "Format",
@@ -45,7 +47,9 @@ String.toLocaleString({
 	"%locale": "en",
 	// Main
 	"%about": "About",
+	"%bearing": "Bearing",
 	"%close": "Close",
+	"%coordinate": "Coordinate",
 	"%coordinate_grid": "Coordinate grid",
 	"%distance": "Distance",
 	"%download": "Download",

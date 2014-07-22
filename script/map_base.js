@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.3.1";
-var date = "12.07.2014";
+var version = "0.0.3.3";
+var date = "22.07.2014";
 
 // Map settings
 var map;
@@ -16,6 +16,10 @@ var layer_pois = -1;
 var layer_seamarks = -1;
 var layer_grid = -1;
 var layer_download = -1;
+var layer_nautical_route = -1;
+
+// Select controls
+var selectControl;
 
 // Look up translation for given string
 var localize = function (string, fallback) {
@@ -51,20 +55,21 @@ function init() {
 	drawmap();
 	setLanguageStrings ();
 	setLayerVisibility();
-	//alert( loadTextDoc("./dialog_pages/map_license_de.html"));
 }
 
 // Add translation to dialogs
 function setLanguageStrings () {
-	document.getElementById("menu_about").innerHTML = localize("%about", "About");
 	document.getElementById("menu_help").innerHTML = localize("%help", "Help");
+	document.getElementById("menu_help_about").innerHTML = localize("%about", "About");
+	document.getElementById("menu_help_license").innerHTML = localize("%license", "License");
 	document.getElementById("menu_layer_coordinate_grid").innerHTML = localize("%coordinate_grid", "Coordinate grid");
 	document.getElementById("menu_layer_seamarks").innerHTML = localize("%seamarks", "Sea marks");
+	//document.getElementById("menu_layer_tidal_scale").innerHTML = localize("%tidal_scale", "Tidal scale");
 	document.getElementById("menu_layer_weather").innerHTML = localize("%weather", "Weather");
-	document.getElementById("menu_license").innerHTML = localize("%license", "License");
-	document.getElementById("menu_permalink").innerHTML = localize("%permalink", "Permalink");
 	document.getElementById("menu_tools").innerHTML = localize("%tools", "Tools");
 	document.getElementById("menu_tools_map_download").innerHTML = localize("%map_download", "Download chart");
+	document.getElementById("menu_tools_permalink").innerHTML = localize("%permalink", "Permalink");
+	document.getElementById("menu_tools_trip_planner").innerHTML = localize("%trip_planner", "Trip planner");
 	document.getElementById("menu_view").innerHTML = localize("%view", "View");
 }
 
@@ -109,7 +114,7 @@ function showActionDialog(header, htmlText, close_button, download_button) {
 	content += "<tr><td colspan=\"2\">" + htmlText + "</td></tr>";
 	content += "<tr><td>";
 	if (download_button) {
-		content += "<input type=\"button\" id=\"buttonActionDlgDownload\" value=\"" + localize('%download', 'Download') + ":\" onclick=\"" + download_button + "\" disabled=\"true\">";
+		content += "<input type=\"button\" id=\"buttonActionDlgDownload\" value=\"" + localize('%download', 'Download') + "\" onclick=\"" + download_button + "\" disabled=\"true\">";
 	}
 	if (close_button) {
 		content +="</td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"" + close_button + ";\"></td></tr>";
@@ -144,13 +149,11 @@ function drawmap() {
 		displayProjection: proj4326,
 		eventListeners: {
 			moveend: mapEventMove,
-			zoomend: mapEventZoom,
-			click: mapEventClick
+			zoomend: mapEventZoom
 		},
 		controls: [
 			new OpenLayers.Control.Navigation(),
 			new OpenLayers.Control.ScaleLine({topOutUnits : "nmi", bottomOutUnits: "km", topInUnits: 'nmi', bottomInUnits: 'km', maxWidth: '40'}),
-			//new OpenLayers.Control.LayerSwitcher(),
 			new OpenLayers.Control.MousePositionDM(),
 			new OpenLayers.Control.OverviewMap(),
 			new OpenLayers.Control.PanZoomBar()],
@@ -160,6 +163,7 @@ function drawmap() {
 		maxResolution: 156543,
 		units: 'meters'
 	});
+
 	// Select feature ---------------------------------------------------------------------------------------------------------
 	// (only one SelectFeature per map is allowed)
 	selectControl = new OpenLayers.Control.SelectFeature([],{
@@ -189,8 +193,7 @@ function drawmap() {
 	var layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
 	layer_seamarks = new OpenLayers.Layer.TMS("seamarks", "http://t1.openseamap.org/seamark/", { layerId: 3, numZoomLevels: 19, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true});
 	layer_grid = new OpenLayers.Layer.GridWGS("coordinate_grid", {visibility: true, zoomUnits: zoomUnits	});
-	layer_pois = new OpenLayers.Layer.Vector("pois", { visibility: true, 	projection: proj4326,  displayOutsideMaxExtent:true	});
-	map.addLayers([layer_mapnik, layer_seamarks, layer_grid, layer_pois]);
+	map.addLayers([layer_mapnik, layer_seamarks, layer_grid]);
 	if (!map.getCenter()) {
 		jumpTo(lon, lat, zoom);
 	}
@@ -213,37 +216,6 @@ function mapEventZoom(event) {
 	// Update download layer if exists
 	if (layer_download != -1) {
 		addDownloadlayer();
-	}
-}
-
-function onFeatureSelectPoiLayers(feature) {
-	if (feature.data.popupContentHTML) {
-		var buff = feature.data.popupContentHTML;
-	} else { 
-		var buff = '<b>'+feature.attributes.name +'</b><br>'+ feature.attributes.description;
-	}
-	if (popup) {
-		map.removePopup(popup);
-	}
-	popup = new OpenLayers.Popup.FramedCloud("chicken", 
-		feature.geometry.getBounds().getCenterLonLat(),
-		null,
-		buff,
-		null, 
-		true
-	);
-	map.addPopup(popup);
-}
-
-function onFeatureUnselectPoiLayers(feature) {
-	if (popup) {
-		//map.removePopup(popup);
-	}
-}
-
-function mapEventClick(event) {
-	if (popup) {
-		//map.removePopup(popup);
 	}
 }
 
