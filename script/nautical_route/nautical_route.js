@@ -17,28 +17,15 @@
 
  ******************************************************************************
  This file implements the nautical route service to the OpenNauticalChart map.
- Version 0.0.1  20.07.2014
+ Version 0.0.2  26.07.2014
  ******************************************************************************/
-
-var defaultStyle = {strokeColor: "blue", strokeOpacity: "0.8", strokeWidth: 3, fillColor: "blue", pointRadius: 3, cursor: "pointer"};
-var style = OpenLayers.Util.applyDefaults(defaultStyle, OpenLayers.Feature.Vector.style["default"]);
-var routeStyle = new OpenLayers.StyleMap({
-	'default': style,
-	'select': {strokeColor: "red", fillColor: "red"}
-});
 
 var editPanel;
 var routeDraw;
 var routeEdit;
-
-//var routeTrack;
 var routeObject;
 
-var style_edit = {
-	strokeColor: "#CD3333",
-	strokeWidth: 3,
-	pointRadius: 4
-};
+var style_edit = {	strokeColor: "#CD3333", strokeWidth: 3, fillColor: "blue",  pointRadius: 4};
 
 function addNauticalRoute() {
 	var htmlText =  "<table border=\"0\" width=\"370px\">";
@@ -48,13 +35,17 @@ function addNauticalRoute() {
 	htmlText += "<tr><td>" + localize('%format', 'Format') + "</td><td><select id=\"routeFormat\"><option value=\"CSV\"/>CSV<option value=\"GML\"/>GML<option value=\"KML\"/>KML</select></td></tr>";
 	htmlText += "<tr><td id=\"routePoints\" colspan = 2> </td></tr>";
 	htmlText += "</table>";
-	showActionDialog(localize("%trip_planner", "Trip planner"), htmlText, "closeNauticalRoute()", "NauticalRoute_DownloadTrack()");
+	showActionDialog(localize("%trip_planner", "Trip planner"), htmlText, "closeNauticalRoute()", "NauticalRoute_DownloadTrack()", "clearNauticalRoute()");
+	document.getElementById('buttonActionDlgClear').value =localize('%new', 'New');
 	addLayerNauticalRoute();
 	NauticalRoute_startEditMode();
 }
 
 function addLayerNauticalRoute() {
 	if (layer_nautical_route == -1) {
+		var defaultStyle = {strokeColor: "blue", strokeOpacity: "0.8", strokeWidth: 3, fillColor: "blue", pointRadius: 3, cursor: "pointer"};
+		var style = OpenLayers.Util.applyDefaults(defaultStyle, OpenLayers.Feature.Vector.style["default"]);
+		var routeStyle = new OpenLayers.StyleMap({'default': style, 'select': {strokeColor: "red", fillColor: "red"}});
 		layer_nautical_route = new OpenLayers.Layer.Vector("nautical_route", {styleMap: routeStyle, visibility: true, eventListeners: {"featuresadded": NauticalRoute_routeAdded, "featuremodified": NauticalRoute_routeModified}});
 		map.addLayer(layer_nautical_route);
 		// Register featureselect for download tool
@@ -69,6 +60,11 @@ function closeNauticalRoute() {
 	layer_nautical_route = -1;
 	closeActionDialog();
 	NauticalRoute_stopEditMode();
+}
+
+function clearNauticalRoute() {
+	closeNauticalRoute();
+	addNauticalRoute();
 }
 
 function NauticalRoute_initControls() {
@@ -88,7 +84,6 @@ function NauticalRoute_startEditMode() {
 function NauticalRoute_stopEditMode() {
 	routeDraw.deactivate();
 	routeEdit.deactivate();
-	//layer_nautical_route.removeAllFeatures();
 }
 
 function NauticalRoute_addMode() {
@@ -125,6 +120,7 @@ function NauticalRoute_getPoints(points) {
 	document.getElementById("routeDistance").innerHTML = totalDistance.toFixed(2) + "nm";
 	document.getElementById("routePoints").innerHTML = htmlText;
 	document.getElementById('buttonActionDlgDownload').disabled = false;
+	document.getElementById('buttonActionDlgClear').disabled = false;
 }
 
 function NauticalRoute_routeAdded(event) {
@@ -135,7 +131,6 @@ function NauticalRoute_routeAdded(event) {
 	NauticalRoute_getPoints(routeTrack);
 	// Select element for editing
 	routeEdit.selectFeature(routeObject);
-	//document.getElementById('buttonRouteDownloadTrack').disabled=false;
 }
 
 function NauticalRoute_routeModified(event) {

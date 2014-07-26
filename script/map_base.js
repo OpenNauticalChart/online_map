@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.4";
-var date = "22.07.2014";
+var version = "0.0.4.1";
+var date = "26.07.2014";
 
 // Map settings
 var map;
@@ -12,7 +12,6 @@ var lat = 54.1530;
 var zoom = 10;
 
 // Layers
-var layer_pois = -1;
 var layer_seamarks = -1;
 var layer_grid = -1;
 var layer_download = -1;
@@ -62,6 +61,7 @@ function setLanguageStrings () {
 	document.getElementById("menu_help").innerHTML = localize("%help", "Help");
 	document.getElementById("menu_help_about").innerHTML = localize("%about", "About");
 	document.getElementById("menu_help_license").innerHTML = localize("%license", "License");
+	document.getElementById("menu_report_bugs").innerHTML = localize("%report_bugs", "Report bugs");
 	document.getElementById("menu_layer_coordinate_grid").innerHTML = localize("%coordinate_grid", "Coordinate grid");
 	document.getElementById("menu_layer_seamarks").innerHTML = localize("%seamarks", "Sea marks");
 	//document.getElementById("menu_layer_tidal_scale").innerHTML = localize("%tidal_scale", "Tidal scale");
@@ -102,7 +102,7 @@ function setLayerCheckBoxes() {
 }
 
 // Show dialog window
-function showActionDialog(header, htmlText, close_button, download_button) {
+function showActionDialog(header, htmlText, close_button, download_button, clear_button) {
 	var content = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\">";
 	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/dialog/close.png\" onClick=\"";
 	if (close_button) {
@@ -115,6 +115,9 @@ function showActionDialog(header, htmlText, close_button, download_button) {
 	content += "<tr><td>";
 	if (download_button) {
 		content += "<input type=\"button\" id=\"buttonActionDlgDownload\" value=\"" + localize('%download', 'Download') + "\" onclick=\"" + download_button + "\" disabled=\"true\">";
+	}
+	if (clear_button) {
+		content += "&nbsp<input type=\"button\" id=\"buttonActionDlgClear\" value=\"" + localize('%clear', 'Clear') + "\" onclick=\"" + clear_button + "\" disabled=\"true\">";
 	}
 	if (close_button) {
 		content +="</td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"" + close_button + ";\"></td></tr>";
