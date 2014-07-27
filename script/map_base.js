@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.4.1";
-var date = "26.07.2014";
+var version = "0.0.4.2";
+var date = "27.07.2014";
 
 // Map settings
 var map;
@@ -117,7 +117,7 @@ function showActionDialog(header, htmlText, close_button, download_button, clear
 		content += "<input type=\"button\" id=\"buttonActionDlgDownload\" value=\"" + localize('%download', 'Download') + "\" onclick=\"" + download_button + "\" disabled=\"true\">";
 	}
 	if (clear_button) {
-		content += "&nbsp<input type=\"button\" id=\"buttonActionDlgClear\" value=\"" + localize('%clear', 'Clear') + "\" onclick=\"" + clear_button + "\" disabled=\"true\">";
+		content += "&nbsp;<input type=\"button\" id=\"buttonActionDlgClear\" value=\"" + localize('%clear', 'Clear') + "\" onclick=\"" + clear_button + "\" disabled=\"true\">";
 	}
 	if (close_button) {
 		content +="</td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"" + close_button + ";\"></td></tr>";

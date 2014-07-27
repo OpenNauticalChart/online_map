@@ -113,7 +113,7 @@ function NauticalRoute_getPoints(points) {
 		htmlText += "<tr><td width=\"20\" align=\"right\">" + parseInt(i+1) + ". </td>";
 		htmlText += "<td width=\"60\" align=\"right\">" + bearing + "°</td>";
 		htmlText += "<td width=\"70\" align=\"right\">" + distance + "nm</td>";
-		htmlText += "<td width=\"200\" align=\"left\">&nbsp&nbsp" + lat2DegreeMinute(latB) + " - " + lon2DegreeMinute(lonB) + "</td></tr>";
+		htmlText += "<td width=\"200\" align=\"left\">&nbsp;&nbsp;" + lat2DegreeMinute(latB) + " - " + lon2DegreeMinute(lonB) + "</td></tr>";
 	}
 	htmlText += "</table>"
 	document.getElementById("routeEnd").innerHTML = lat2DegreeMinute(latB) + " - " + lon2DegreeMinute(lonB);

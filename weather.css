@@ -1,3 +1,7 @@
+input[type=checkbox] {
+	visibility: hidden;
+}
+
 #timemenu {
 	margin-bottom: 5px;
 	border: 2px solid #000080;

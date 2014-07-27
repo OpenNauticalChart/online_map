@@ -2,21 +2,17 @@
 	<ul>
 		<li>
 			<a href="./index.php">
-				<img alt="ONCLogo" src="./resources/icons/ONC-Logo.png" width="24" height="24" border="0"><span id="menu_nautical_chart">Nautical Chart</span></img>
+				<img alt="ONCLogo" src="./resources/icons/ONC-Logo.png" style="width:24px; height:24px;margin-top:5px;"><span id="menu_nautical_chart" style="margin-right:10px;">Nautical Chart</span></img>
 			</a>
 		</li>
-		<li>&nbsp;|&nbsp;</li>
-		<li id="buttonWind" onClick="showWind()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showWindLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkWind"/><IMG src="./resources/dialog/weather/WindIcon.png" width="24" height="24" align="center" border="0"><span id="menu_wind">Wind</span></img></li>
-		<li>&nbsp;&nbsp;</li>
-		<li id="buttonPressure" onClick="showPressure()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showPressureLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkPressure"/><IMG src="./resources/dialog/weather/AirPressureIcon.png" width="24" height="24" align="center" border="0"><span id="menu_air_pressure">Air Pressure</span></img></li>
-		<li>&nbsp;&nbsp;</li>
-		<li id="buttonAirTemperature" onClick="showAirTemperature()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showAirTemperatureLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkAirTemperature"/><IMG src="./resources/dialog/weather/AirTemperatureIcon.png" width="24" height="24" align="center" border="0"><span id="menu_air_temperature">Air Temperature</span></img></li>
-		<li>&nbsp;&nbsp;</li>
-		<li id="buttonPrecipitation" onClick="showPrecipitation()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showPrecipitationLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkPrecipitation"/><IMG src="./resources/dialog/weather/PrecipitationIcon.png" width="24" height="24" align="center" border="0"><span id="menu_precipitation">Precipitation</span></img></li>
-		<li>&nbsp;&nbsp;</li>
-		<li id="buttonSignificantWaveHeight" onClick="showSignificantWaveHeight()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showSignificantWaveHeightLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkSignificantWaveHeight"/><IMG src="./resources/dialog/weather/WaveIcon.png" width="24" height="24" align="center" border="0"><span id="menu_wave_height">Wave Height</span></img></li>
-		<li>&nbsp;|&nbsp;</li>
-		<li onClick="zoomIn()"><IMG src="./resources/dialog/zoom-in.png" width="24" height="24" align="center" border="0">Zoom +</img></li>
-		<li onClick="zoomOut()"><IMG src="./resources/dialog/zoom-out.png" width="24" height="24" align="center" border="0">Zoom -</img></li>
+		<li><img src="./resources/dialog/weather/BlueDivider.png" style="width:2px; height:24px;margin-top:3px;"></li>
+		<li id="buttonWind" onClick="showWind()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showWindLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkWind"/><img src="./resources/dialog/weather/WindIcon.png" style="width:24px; height:24px;margin-left: -20px;"><span id="menu_wind" style="margin-right: 10px;">Wind</span></img></li>
+		<li id="buttonPressure" onClick="showPressure()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showPressureLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkPressure"/><img src="./resources/dialog/weather/AirPressureIcon.png" style="width:24px; height:24px;margin-left: -20px;"><span id="menu_air_pressure" style="margin-right: 10px;">Air Pressure</span></img></li>
+		<li id="buttonAirTemperature" onClick="showAirTemperature()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showAirTemperatureLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkAirTemperature"/><img src="./resources/dialog/weather/AirTemperatureIcon.png" style="width:24px; height:24px;margin-left: -20px;"><span id="menu_air_temperature" style="margin-right: 10px;">Air Temperature</span></img></li>
+		<li id="buttonPrecipitation" onClick="showPrecipitation()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showPrecipitationLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkPrecipitation"/><img src="./resources/dialog/weather/PrecipitationIcon.png" style="width:24px; height:24px;margin-left: -20px;"><span id="menu_precipitation" style="margin-right: 10px;">Precipitation</span></img></li>
+		<li id="buttonSignificantWaveHeight" onClick="showSignificantWaveHeight()" onMouseover="this.style.background='#ADD8E6'" onMouseout="if(!showSignificantWaveHeightLayer) {this.style.background='#FFFFFF'} else {this.style.background='#ADD8E6'}"><input type="checkbox" id="checkSignificantWaveHeight"/><img src="./resources/dialog/weather/WaveIcon.png" style="width:24px; height:24px;margin-left: -20px;"><span id="menu_wave_height" style="margin-right: 10px;">Wave Height</span></img></li>
+		<li><img src="./resources/dialog/weather/BlueDivider.png" style="width:2px; height:24px;margin-top:3px;"></li>
+		<li onClick="zoomIn()"><img src="./resources/dialog/zoom-in.png" style="width:24px; height:24px;margin-top:5px;">Zoom +</img></li>
+		<li onClick="zoomOut()"><img src="./resources/dialog/zoom-out.png" style="width:24px; height:24px;margin-top:5px;">Zoom -</img></li>
 	</ul>
 </div>
