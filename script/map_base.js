@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.4.2";
-var date = "27.07.2014";
+var version = "0.0.4.3";
+var date = "14.08.2014";
 
 // Map settings
 var map;
@@ -151,6 +151,7 @@ function drawmap() {
 		projection: projMerc,
 		displayProjection: proj4326,
 		eventListeners: {
+			click: mapEventClick,
 			moveend: mapEventMove,
 			zoomend: mapEventZoom
 		},
@@ -202,6 +203,21 @@ function drawmap() {
 	}
 	map.addControl(selectControl);
 	selectControl.activate();
+}
+
+function mapEventClick(event) {
+	var bbOffset = 0.001;
+	var clickLonLat = map.getLonLatFromViewPortPx(event.xy).transform( projMerc, proj4326);
+	var popupText = getNodeInformation(clickLonLat.lat - bbOffset, clickLonLat.lon - bbOffset, clickLonLat.lat + bbOffset, clickLonLat.lon +bbOffset);
+	if (popupText != "-1") {
+		popup = new OpenLayers.Popup.FramedCloud("info",
+			map.getLonLatFromViewPortPx(event.xy),
+			null,
+			popupText,
+			null,
+			true);
+		map.addPopup(popup);
+	}
 }
 
 // Map event listener moved
