@@ -206,17 +206,19 @@ function drawmap() {
 }
 
 function mapEventClick(event) {
-	var bbOffset = 0.001;
-	var clickLonLat = map.getLonLatFromViewPortPx(event.xy).transform( projMerc, proj4326);
-	var popupText = getNodeInformation(clickLonLat.lat - bbOffset, clickLonLat.lon - bbOffset, clickLonLat.lat + bbOffset, clickLonLat.lon +bbOffset);
-	if (popupText != "-1") {
-		popup = new OpenLayers.Popup.FramedCloud("info",
-			map.getLonLatFromViewPortPx(event.xy),
-			null,
-			popupText,
-			null,
-			true);
-		map.addPopup(popup);
+	if (zoom >= 13) {
+		var bbOffset = 0.001;
+		var clickLonLat = map.getLonLatFromViewPortPx(event.xy).transform( projMerc, proj4326);
+		var popupText = getNodeInformation(clickLonLat.lat - bbOffset, clickLonLat.lon - bbOffset, clickLonLat.lat + bbOffset, clickLonLat.lon +bbOffset);
+		if (popupText != "-1") {
+			popup = new OpenLayers.Popup.FramedCloud("info",
+				map.getLonLatFromViewPortPx(event.xy),
+				null,
+				popupText,
+				null,
+				true);
+			map.addPopup(popup);
+		}
 	}
 }
 

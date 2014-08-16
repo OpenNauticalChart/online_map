@@ -26,7 +26,12 @@ function getNodeInformation(a ,b, c, d) {
 		var item = items[i];
 		itemType = getTag(item, "seamark:type");
 		if (itemType == "harbour") {
-			infoText = parseNodeHarbour(item);
+			var buff = parseNodeHarbour(item);
+			if (buff != "-1") {
+				infoText = buff;
+			}
+		} else {
+			itemType = "-1";
 		}
 	}
 	if (itemType == "-1") {
@@ -35,7 +40,10 @@ function getNodeInformation(a ,b, c, d) {
 			var item = items[i];
 			itemType = getTag(item, "seamark:type");
 			if (itemType == "harbour") {
-				infoText = parseNodeHarbour(item);
+				var buff = parseNodeHarbour(item);
+				if (buff != "-1") {
+					infoText = buff;
+				}
 			}
 		}
 	}
@@ -56,10 +64,14 @@ function getTag(item, key) {
 }
 
 function parseNodeHarbour(item) {
+	var infoName = getTag(item, "name") ;
 	var infoPhone =  getTag(item, "phone");
 	var infoEmail =  getTag(item, "email");
 	var infoWeb =  getTag(item, "website");
-	var infoText = "<b>" + getTag(item, "name") +  "</b><br><br>";
+	var infoText = "-1";
+	if (infoName != "-1") {
+		infoText = "<b>" + infoName +  "</b><br><br>";
+	}
 	if (infoPhone != "-1") {
 		infoText += "<b>" + localize("%phone", "Phone") + ": </b>" +  infoPhone +  "<br>";
 	}
@@ -67,7 +79,14 @@ function parseNodeHarbour(item) {
 		infoText += "<b>" +localize("%email", "E-Mail") + ":  </b><a href=\"mailto:" + infoEmail + "\"> " + infoEmail + "</a><br>";
 	}
 	if (infoWeb != "-1") {
-		infoText += "<b>" +localize("%web", "Web") + ":  </b><a href=\"" + infoWeb + "\" target=\"_blank\"> " + infoWeb + "</a><br>";
+		infoText += "<b>" +localize("%web", "Web") + ":  </b><a href=\"";
+		if (infoWeb.match('http')) {
+			infoText +=  infoWeb;
+		} else {
+			infoText += "http://" + infoWeb;
+		}
+
+		infoText +=  "\" target=\"_blank\"> " + infoWeb + "</a><br>";
 	}
 
 	return infoText;
