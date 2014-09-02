@@ -29,6 +29,7 @@ function getNodeInformation(a ,b, c, d) {
 			var buff = parseNodeHarbour(item);
 			if (buff != "-1") {
 				infoText = buff;
+				infoText += "<br/><span onClick=\"showWeatherPng(" + a + ", " + b + ")\"  style=\"cursor:pointer; color: blue;\">" + localize("%weather", "Weather") + "</span>";
 			}
 		} else {
 			itemType = "-1";
@@ -43,6 +44,7 @@ function getNodeInformation(a ,b, c, d) {
 				var buff = parseNodeHarbour(item);
 				if (buff != "-1") {
 					infoText = buff;
+					infoText += "<br/><span onClick=\"showWeatherPng(" + a + ", " + b +  ")\"  style=\"cursor:pointer; color: blue;\">" + localize("%weather", "Weather") + "</span>";
 				}
 			}
 		}
@@ -76,10 +78,10 @@ function parseNodeHarbour(item) {
 		infoText += "<b>" + localize("%phone", "Phone") + ": </b>" +  infoPhone +  "<br>";
 	}
 	if (infoEmail != "-1") {
-		infoText += "<b>" +localize("%email", "E-Mail") + ":  </b><a href=\"mailto:" + infoEmail + "\"> " + infoEmail + "</a><br>";
+		infoText += "<b>" + localize("%email", "E-Mail") + ":  </b><a href=\"mailto:" + infoEmail + "\"> " + infoEmail + "</a><br>";
 	}
 	if (infoWeb != "-1") {
-		infoText += "<b>" +localize("%web", "Web") + ":  </b><a href=\"";
+		infoText += "<b>" + localize("%web", "Web") + ":  </b><a href=\"";
 		if (infoWeb.match('http')) {
 			infoText +=  infoWeb;
 		} else {
@@ -90,4 +92,8 @@ function parseNodeHarbour(item) {
 	}
 
 	return infoText;
+}
+
+function showWeatherPng(a, b) {
+	showActionDialog(localize("%weather", "Weather"), "<img alt=\"weather\" src=" + "http://openportguide.org/cgi-bin/weather/weather.pl/weather.png?var=meteogram&nx=614&ny=750&lat=" + a + "&lon=" + b + "&lang=" +  localize("%locale", "en") + "&unit=metric&label=" + localize("%harbour", "Harbour") + " height=\"600\">");
 }

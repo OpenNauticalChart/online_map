@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.4.3";
-var date = "14.08.2014";
+var version = "0.0.4.4";
+var date = "02.09.2014";
 
 // Map settings
 var map;
