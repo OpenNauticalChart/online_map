@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.4.4";
-var date = "02.09.2014";
+var version = "0.0.4.6";
+var date = "24.10.2014";
 
 // Map settings
 var map;
@@ -61,7 +61,8 @@ function setLanguageStrings () {
 	document.getElementById("menu_help").innerHTML = localize("%help", "Help");
 	document.getElementById("menu_help_about").innerHTML = localize("%about", "About");
 	document.getElementById("menu_help_license").innerHTML = localize("%license", "License");
-	document.getElementById("menu_report_bugs").innerHTML = localize("%report_bugs", "Report bugs");
+	document.getElementById("menu_help_map_key").innerHTML = localize("%map_key", "Map key");
+	document.getElementById("menu_help_report_bugs").innerHTML = localize("%report_bugs", "Report bugs");
 	document.getElementById("menu_layer_coordinate_grid").innerHTML = localize("%coordinate_grid", "Coordinate grid");
 	document.getElementById("menu_layer_seamarks").innerHTML = localize("%seamarks", "Sea marks");
 	//document.getElementById("menu_layer_tidal_scale").innerHTML = localize("%tidal_scale", "Tidal scale");

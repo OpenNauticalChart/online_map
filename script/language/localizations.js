@@ -46,6 +46,7 @@ String.toLocaleString({
 	"%wind": "Wind",
 	// Dialog pages
 	"%about_dialog": "<b>OpenNauticalChart</b><br>Version: " + version + "<br>Datum: " + date + "<br><br>" + loadFile('./dialog_pages/about/about_de.html', 'txt'),
+	"%map_key": "Legende",
 	"%report_bugs": "Fehler berichten",
 	"%select_format": "Bitte wählen sie ein Format."
 },
@@ -96,6 +97,7 @@ String.toLocaleString({
 	"%wind": "Wind",
 	// Dialog pages
 	"%about_dialog": "<b>OpenNauticalChart</b><br><br>Version: " + version + "<br>Date: " + date + "<br><br>" + loadFile('./dialog_pages/about/about_en.html', 'txt'),
+	"%map_key": "Map key",
 	"%report_bugs": "Report bugs",
 	"%select_format": "Please select a format."
 },

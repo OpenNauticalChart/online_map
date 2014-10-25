@@ -129,3 +129,37 @@ ul.dropdown ul li a                 { border-right: none; width: 200px; display:
 */
 ul.dropdown ul ul                   { left: 100%; top: 0; }
 ul.dropdown li:hover > ul           { visibility: visible; }
+
+/*
+    Top menu map key-------------------------------------------------
+*/
+
+#menubar_map_key a{
+	text-decoration: none;
+	padding: 0 25px 0 25px;
+	color: #000000;
+	background-color:#CAE1FF;
+	cursor:pointer;
+	opacity: 0.50;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+}
+
+#menubar_map_key span{
+	text-decoration: none;
+	padding: 0 25px 0 25px;
+	color: #000000;
+	background-color:#CAE1FF;
+	font-weight: bold;
+	cursor:default;
+	opacity: 0.80;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+}
+
+#menubar_map_key a:hover {
+	color: #990000;
+	opacity: 0.65;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=65)";
+	filter: alpha(opacity=65);
+}
