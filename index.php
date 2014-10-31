@@ -4,7 +4,8 @@
 		<title>OpenNauticalChart</title>
 		<meta name="AUTHOR" content="Olaf Hannemann" >
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<meta name="date" content="2014-01-07">
+		<meta name="description" content="OpenNauticalChart offers free seacharts for everybody. This charts are usable (offline) with several ship-plotters and Navigation-equipement on board.">
+		<meta name="date" content="2014-10-25">
 		<link rel="SHORTCUT ICON" href="./resources/icons/ONC-Logo_16px.png">
 		<link rel="stylesheet" type="text/css" href="./map-full.css">
 		<script type="text/javascript" src="./script/openlayers/OpenLayers.js"></script>
@@ -30,7 +31,6 @@
 		<div id="actionDialog">
             <br>
         </div>
-         <a href="#"  id="download">download</a>
 		 <? include('./include/topmenu.inc'); ?>
 	</body>
 </html>
