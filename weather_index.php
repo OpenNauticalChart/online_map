@@ -69,8 +69,8 @@
 			<img src="./resources/icons/OpenPortGuideLogo_32.png" height="32px" title="Weather by OpenPortGuide" onClick="javascript:showActionDialog(localize('%license', 'License'), loadFile('./dialog_pages/main_license/main_license_' + localize('%locale', 'en') + '.html', 'txt'));">
 		</div>
 		<div id="actionDialog"></div>
-		 <? include('./include/topmenu_weather.inc'); ?>
-		 <div id="timemenu" style="position:absolute; top:55px; left:12px;"></div>
+		<? include('./include/topmenu_weather.inc'); ?>
+		<div id="timemenu" style="position:absolute; top:55px; left:12px;"></div>
 		<div id="comment" style="position:absolute; top:10px; right:12px;  visibility:hidden;">
 			<img src="./resources/map/WindScale.png"/>
 		</div>

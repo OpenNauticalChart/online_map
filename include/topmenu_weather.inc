@@ -14,5 +14,7 @@
 		<li><img src="./resources/dialog/weather/BlueDivider.png" style="width:2px; height:24px;margin-top:3px;"></li>
 		<li onClick="zoomIn()"><img src="./resources/dialog/zoom-in.png" style="width:24px; height:24px;margin-top:5px;">Zoom +</img></li>
 		<li onClick="zoomOut()"><img src="./resources/dialog/zoom-out.png" style="width:24px; height:24px;margin-top:5px;">Zoom -</img></li>
+		<li><img src="./resources/dialog/weather/BlueDivider.png" style="width:2px; height:24px;margin-top:3px;"></li>
+		<li onClick="showActionDialog(localize('%help', 'Help'), loadFile('./dialog_pages/weather_help/weather_help_main_' + localize('%locale', 'en') + '.html', 'txt'));"><img src="./resources/dialog/info.png" style="width:24px; height:24px;margin-top:3px;"><span id="menu_help" style="margin-right: 10px;">Help</span></img></li>
 	</ul>
 </div>

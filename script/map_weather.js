@@ -108,6 +108,7 @@ function setLanguageStrings () {
 	document.getElementById("menu_air_temperature").innerHTML = localize("%temperature", "Temperature");
 	document.getElementById("menu_precipitation").innerHTML = localize("%precipitation", "Precipitation");
 	document.getElementById("menu_wave_height").innerHTML = localize("%wave_height", "Wave height");
+	document.getElementById("menu_help").innerHTML =  localize("%help", "Help");
 }
 
 // Show dialog window
