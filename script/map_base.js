@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.4.6";
-var date = "24.10.2014";
+var version = "0.0.4.7";
+var date = "01.05.2018";
 
 // Map settings
 var map;
@@ -104,6 +104,9 @@ function setLayerCheckBoxes() {
 
 // Show dialog window
 function showActionDialog(header, htmlText, close_button, download_button, clear_button) {
+	var max_height = window.innerHeight  - 130;
+	var max_width = window.innerWidth - 100;
+	//alert(max_height);
 	var content = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\">";
 	content += "<tr bgcolor=\"#CAE1FF\"><td align=\"left\" valign=\"top\"><b>" + header + "</b></td><td align=\"right\" valign=\"top\"><img src=\"./resources/dialog/close.png\" onClick=\"";
 	if (close_button) {
@@ -112,7 +115,7 @@ function showActionDialog(header, htmlText, close_button, download_button, clear
 		 content += "closeActionDialog()";
 	}
 	content += "\"></td></tr>";
-	content += "<tr><td colspan=\"2\">" + htmlText + "</td></tr>";
+	content += "<tr><td colspan=\"2\"><div style=\"max-height:" + max_height + "px; max-width:" + max_width + "px; overflow:auto;\">" + htmlText + "</div></td></tr>";
 	content += "<tr><td>";
 	if (download_button) {
 		content += "<input type=\"button\" id=\"buttonActionDlgDownload\" value=\"" + localize('%download', 'Download') + "\" onclick=\"" + download_button + "\" disabled=\"true\">";
