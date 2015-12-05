@@ -45,7 +45,7 @@ String.toLocaleString({
 	"%wave_height": "Wellenhöhe",
 	"%wind": "Wind",
 	// Dialog pages
-	"%about_dialog": "<b>OpenNauticalChart</b><br>Version: " + version + "<br>Datum: " + date + "<br><br>" + loadFile('./dialog_pages/about/about_de.html', 'txt'),
+	"%about_dialog": "<b>OpenNauticalChart</b><br>Version: " + version + "<br>Datum: " + date + loadFile('./dialog_pages/about/about_de.html', 'txt'),
 	"%map_key": "Legende",
 	"%report_bugs": "Fehler berichten",
 	"%select_format": "Bitte wählen sie ein Format."

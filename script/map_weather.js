@@ -79,10 +79,15 @@ var localize = function (string, fallback) {
 
 // Load page for the first time
 function init() {
-	var buffZoom = parseInt(getCookie("weather_zoom"));
-	var buffLat = parseFloat(getCookie("weather_lat"));
-	var buffLon = parseFloat(getCookie("weather_lon"));
+	var buffZoom = parseInt(getCookie("zoom"));
+	var buffLat = parseFloat(getCookie("lat"));
+	var buffLon = parseFloat(getCookie("lon"));
 	if (buffZoom != -1) {
+		if (buffZoom <= 3)  {
+			buffZoom = 4;
+		} else if (buffZoom >= 8) {
+			buffZoom = 7;
+		} 
 		zoom = buffZoom;
 	}
 	if (buffLat != -1 && buffLon != -1) {

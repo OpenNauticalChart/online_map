@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.4.8";
-var date = "18.08.2015";
+var version = "0.0.4.9";
+var date = "05.12.2015";
 
 // Map settings
 var map;
@@ -69,7 +69,7 @@ function setLanguageStrings () {
 	document.getElementById("menu_layer_weather").innerHTML = localize("%weather", "Weather");
 	document.getElementById("menu_tools").innerHTML = localize("%tools", "Tools");
 	document.getElementById("menu_tools_map_download").innerHTML = localize("%map_download", "Download chart");
-	document.getElementById("menu_tools_permalink").innerHTML = localize("%permalink", "Permalink");
+	//document.getElementById("menu_tools_permalink").innerHTML = localize("%permalink", "Permalink");
 	document.getElementById("menu_tools_trip_planner").innerHTML = localize("%trip_planner", "Trip planner");
 	document.getElementById("menu_view").innerHTML = localize("%view", "View");
 }
