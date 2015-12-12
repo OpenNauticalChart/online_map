@@ -27,7 +27,7 @@
 		<li>
 			<a><img alt="tools" src="./resources/dialog/tools.png" width="22" height="22" border="0"><span id="menu_tools">Tools</span></a>
 			<ul class="sub_menu">
-				<!--<li onClick="javascript:createPermalink();"><a><img alt="permalink" src="./resources/dialog/permalink.png" width="22" height="22" border="0"><span id="menu_tools_permalink">Permalink</span></a></li>-->
+				<li onClick="javascript:createPermalink();"><a><img alt="permalink" src="./resources/dialog/permalink.png" width="22" height="22" border="0"><span id="menu_tools_permalink">Permalink</span></a></li>
 				<li onClick="javascript:addMapDownload();"><a><img alt="map_download" src="./resources/dialog/layer_download_map.png" width="22" height="22" border="0"><span id="menu_tools_map_download">Download chart</span></a></li>
 				<li onClick="javascript:addNauticalRoute();"><a><img alt="route" src="./resources/dialog/layer_route.png" width="22" height="22" border="0"><span id="menu_tools_trip_planner">Trip planner</span></a></li>
 			</ul>

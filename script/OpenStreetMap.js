@@ -95,5 +95,5 @@ function parseNodeHarbour(item) {
 }
 
 function showWeatherPng(a, b) {
-	showActionDialog(localize("%weather", "Weather"), "<img alt=\"weather\" src=" + "http://openportguide.org/cgi-bin/weather/weather.pl/weather.png?var=meteogram&nx=614&ny=750&lat=" + a + "&lon=" + b + "&lang=" +  localize("%locale", "en") + "&unit=metric&label=" + localize("%harbour", "Harbour") + " height=\"600\">");
+	showActionDialog(localize("%weather", "Weather"), "<img alt=\"" + localize("%loading_data", "loading data") +"\" src=" + "http://openportguide.org/cgi-bin/weather/weather.pl/weather.png?var=meteogram&nx=614&ny=750&lat=" + a + "&lon=" + b + "&lang=" +  localize("%locale", "en") + "&unit=metric&label=" + localize("%harbour", "Harbour") + " height=\"600\">");
 }

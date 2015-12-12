@@ -1,6 +1,6 @@
 // Main settings
-var version = "0.0.4.9";
-var date = "05.12.2015";
+var version = "0.0.4.10";
+var date = "12.12.2015";
 
 // Map settings
 var map;
@@ -69,7 +69,7 @@ function setLanguageStrings () {
 	document.getElementById("menu_layer_weather").innerHTML = localize("%weather", "Weather");
 	document.getElementById("menu_tools").innerHTML = localize("%tools", "Tools");
 	document.getElementById("menu_tools_map_download").innerHTML = localize("%map_download", "Download chart");
-	//document.getElementById("menu_tools_permalink").innerHTML = localize("%permalink", "Permalink");
+	document.getElementById("menu_tools_permalink").innerHTML = localize("%permalink", "Permalink");
 	document.getElementById("menu_tools_trip_planner").innerHTML = localize("%trip_planner", "Trip planner");
 	document.getElementById("menu_view").innerHTML = localize("%view", "View");
 }
@@ -228,13 +228,17 @@ function mapEventClick(event) {
 
 // Map event listener moved
 function mapEventMove(event) {
+	// Set new lat lon values (fix for #18)
+	lat = y2lat(map.getCenter().lat).toFixed(5);
+	lon =x2lon(map.getCenter().lon).toFixed(5);
 	// Set cookies for remembering lat lon values
-	setCookie("lat", y2lat(map.getCenter().lat).toFixed(5));
-	setCookie("lon", x2lon(map.getCenter().lon).toFixed(5));
+	setCookie("lat", lat);
+	setCookie("lon", lon);
 }
 
 // Map event listener Zoomed
 function mapEventZoom(event) {
+	// Set new  zoom value
 	zoom = map.getZoom();
 	// Set cookie for remembering zoomlevel
 	setCookie("zoom",zoom);
