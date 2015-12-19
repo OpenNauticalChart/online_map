@@ -1,7 +1,7 @@
 
 // Main settings
-var version = "0.0.1";
-var date = "02.07.2014";
+var version = "0.0.3";
+var date = "19.12.2015";
 
 // The map
 var map;
@@ -137,7 +137,7 @@ function showActionDialog(header, htmlText, close_button, download_button) {
 		content +="</td><td align=\"right\" valign=\"bottom\"><input type=\"button\" id=\"buttonMapClose\" value=\"" +  localize("%close", "Close") + "\" onclick=\"closeActionDialog();\"></td></tr>";
 	}
 	content += "</table>";
-	placeDiv("actionDialog", 12, 55)
+	placeDiv("actionDialog", 50, 55)
 	document.getElementById("timemenu").style.visibility = 'hidden';
 	document.getElementById("actionDialog").style.visibility = 'visible';
 	document.getElementById("actionDialog").innerHTML = content;
@@ -150,121 +150,75 @@ function closeActionDialog() {
 }
 
 function drawmap() {
-	map = new OpenLayers.Map('map', {
-		projection: projMerc,
-		displayProjection: proj4326,
-		eventListeners: {
-			"moveend": mapEventMove,
-			"zoomend": mapEventZoom
-		},
+	map = new ol.Map({
 		controls: [
-			new OpenLayers.Control.MousePositionDM(),
-			new OpenLayers.Control.OverviewMap(),
-			new OpenLayers.Control.Navigation({zoomWheelEnabled: false})],
-			maxExtent:
-			new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
-		numZoomLevels: 3,
-		maxResolution: 156543,
-		units: 'meters'
+			new ol.control.Zoom(),
+			new ol.control.ZoomSlider()
+		],
+		target: 'map', 
+		renderer: 'canvas', 
+		layers: [
+			// Add base map from OpenStreetMap source
+			new ol.layer.Tile({
+				source: new ol.source.OSM()
+			})
+		],
+
+		view: new ol.View({
+			minZoom: 4,
+			maxZoom: 7,
+			center: ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'),
+			zoom: zoom
+		})
 	});
+	
 
-	// Add Layers to map-------------------------------------------------------------------------------------------------------
-	// Mapnik
-	var layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
+	// Add weather layers to map-------------------------------------------------------------------------------------------------------
 	// Wind layers
-	layer_weather_wind1 = new OpenLayers.Layer.TMS("Wind12", "http://www.openportguide.org/tiles/actual/wind_vector/5/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_wind2 = new OpenLayers.Layer.TMS("Wind18", "http://www.openportguide.org/tiles/actual/wind_vector/7/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_wind3 = new OpenLayers.Layer.TMS("Wind24", "http://www.openportguide.org/tiles/actual/wind_vector/9/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_wind4 = new OpenLayers.Layer.TMS("Wind30", "http://www.openportguide.org/tiles/actual/wind_vector/11/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_wind5 = new OpenLayers.Layer.TMS("Wind42", "http://www.openportguide.org/tiles/actual/wind_vector/15/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_wind6 = new OpenLayers.Layer.TMS("Wind54", "http://www.openportguide.org/tiles/actual/wind_vector/19/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_wind7 = new OpenLayers.Layer.TMS("Wind66", "http://www.openportguide.org/tiles/actual/wind_vector/23/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_wind8 = new OpenLayers.Layer.TMS("Wind78", "http://www.openportguide.org/tiles/actual/wind_vector/27/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
+	 map.addLayer(layer_weather_wind1 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/wind_vector/5/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_wind2 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/wind_vector/7/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_wind3 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/wind_vector/9/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_wind4 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/wind_vector/11/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_wind5 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/wind_vector/15/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_wind6 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/wind_vector/19/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_wind7 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/wind_vector/23/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_wind8 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/wind_vector/27/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
 	// Air pressure layers
-	layer_weather_pressure1 = new OpenLayers.Layer.TMS("Wind12", "http://www.openportguide.org/tiles/actual/surface_pressure/5/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_pressure2 = new OpenLayers.Layer.TMS("Wind18", "http://www.openportguide.org/tiles/actual/surface_pressure/7/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_pressure3 = new OpenLayers.Layer.TMS("Wind24", "http://www.openportguide.org/tiles/actual/surface_pressure/9/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_pressure4 = new OpenLayers.Layer.TMS("Wind30", "http://www.openportguide.org/tiles/actual/surface_pressure/11/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_pressure5 = new OpenLayers.Layer.TMS("Wind42", "http://www.openportguide.org/tiles/actual/surface_pressure/15/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_pressure6 = new OpenLayers.Layer.TMS("Wind54", "http://www.openportguide.org/tiles/actual/surface_pressure/19/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_pressure7 = new OpenLayers.Layer.TMS("Wind66", "http://www.openportguide.org/tiles/actual/surface_pressure/23/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_pressure8 = new OpenLayers.Layer.TMS("Wind78", "http://www.openportguide.org/tiles/actual/surface_pressure/27/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
+	 map.addLayer(layer_weather_pressure1 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/surface_pressure/5/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_pressure2 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/surface_pressure/7/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_pressure3 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/surface_pressure/9/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_pressure4 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/surface_pressure/11/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_pressure5 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/surface_pressure/15/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_pressure6 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/surface_pressure/19/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_pressure7 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/surface_pressure/23/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_pressure8 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/surface_pressure/27/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
 	// Temperature layers
-	layer_weather_air_temperature1 = new OpenLayers.Layer.TMS("Wind12", "http://www.openportguide.org/tiles/actual/air_temperature/5/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_air_temperature2 = new OpenLayers.Layer.TMS("Wind18", "http://www.openportguide.org/tiles/actual/air_temperature/7/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_air_temperature3 = new OpenLayers.Layer.TMS("Wind24", "http://www.openportguide.org/tiles/actual/air_temperature/9/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_air_temperature4 = new OpenLayers.Layer.TMS("Wind30", "http://www.openportguide.org/tiles/actual/air_temperature/11/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_air_temperature5 = new OpenLayers.Layer.TMS("Wind42", "http://www.openportguide.org/tiles/actual/air_temperature/15/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_air_temperature6 = new OpenLayers.Layer.TMS("Wind54", "http://www.openportguide.org/tiles/actual/air_temperature/19/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_air_temperature7 = new OpenLayers.Layer.TMS("Wind66", "http://www.openportguide.org/tiles/actual/air_temperature/23/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_air_temperature8 = new OpenLayers.Layer.TMS("Wind78", "http://www.openportguide.org/tiles/actual/air_temperature/27/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
+	 map.addLayer(layer_weather_air_temperature1 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/air_temperature/5/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_air_temperature2 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/air_temperature/7/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_air_temperature3 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/air_temperature/9/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_air_temperature4 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/air_temperature/11/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_air_temperature5 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/air_temperature/15/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_air_temperature6 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/air_temperature/19/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_air_temperature7 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/air_temperature/23/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_air_temperature8 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/air_temperature/27/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
 	// Precipitation layers
-	layer_weather_precipitation1 = new OpenLayers.Layer.TMS("Wind12", "http://www.openportguide.org/tiles/actual/precipitation/5/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_precipitation2 = new OpenLayers.Layer.TMS("Wind18", "http://www.openportguide.org/tiles/actual/precipitation/7/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_precipitation3 = new OpenLayers.Layer.TMS("Wind24", "http://www.openportguide.org/tiles/actual/precipitation/9/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_precipitation4 = new OpenLayers.Layer.TMS("Wind30", "http://www.openportguide.org/tiles/actual/precipitation/11/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_precipitation5 = new OpenLayers.Layer.TMS("Wind42", "http://www.openportguide.org/tiles/actual/precipitation/15/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_precipitation6 = new OpenLayers.Layer.TMS("Wind54", "http://www.openportguide.org/tiles/actual/precipitation/19/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_precipitation7 = new OpenLayers.Layer.TMS("Wind66", "http://www.openportguide.org/tiles/actual/precipitation/23/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_precipitation8 = new OpenLayers.Layer.TMS("Wind78", "http://www.openportguide.org/tiles/actual/precipitation/27/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	// Temperature layers
-	layer_weather_significant_wave_height1 = new OpenLayers.Layer.TMS("Wind12", "http://www.openportguide.org/tiles/actual/significant_wave_height/5/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_significant_wave_height2 = new OpenLayers.Layer.TMS("Wind18", "http://www.openportguide.org/tiles/actual/significant_wave_height/7/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_significant_wave_height3 = new OpenLayers.Layer.TMS("Wind24", "http://www.openportguide.org/tiles/actual/significant_wave_height/9/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_significant_wave_height4 = new OpenLayers.Layer.TMS("Wind30", "http://www.openportguide.org/tiles/actual/significant_wave_height/11/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_significant_wave_height5 = new OpenLayers.Layer.TMS("Wind42", "http://www.openportguide.org/tiles/actual/significant_wave_height/15/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_significant_wave_height6 = new OpenLayers.Layer.TMS("Wind54", "http://www.openportguide.org/tiles/actual/significant_wave_height/19/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_significant_wave_height7 = new OpenLayers.Layer.TMS("Wind66", "http://www.openportguide.org/tiles/actual/significant_wave_height/23/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	layer_weather_significant_wave_height8 = new OpenLayers.Layer.TMS("Wind78", "http://www.openportguide.org/tiles/actual/significant_wave_height/27/",
-	{ type: 'png', getURL:getTileURL, isBaseLayer:false, visibility: false, displayOutsideMaxExtent:true});
-	map.addLayers([layer_mapnik, layer_weather_wind1, layer_weather_wind2, layer_weather_wind3, layer_weather_wind4, layer_weather_wind5, layer_weather_wind6, layer_weather_wind7,
-		layer_weather_wind8, layer_weather_pressure1, layer_weather_pressure2, layer_weather_pressure3, layer_weather_pressure4, layer_weather_pressure5, layer_weather_pressure6, layer_weather_pressure7, layer_weather_pressure8,
-		layer_weather_air_temperature1, layer_weather_air_temperature2, layer_weather_air_temperature3, layer_weather_air_temperature4, layer_weather_air_temperature5, layer_weather_air_temperature6, layer_weather_air_temperature7, layer_weather_air_temperature8,
-		layer_weather_precipitation1, layer_weather_precipitation2, layer_weather_precipitation3, layer_weather_precipitation4, layer_weather_precipitation5, layer_weather_precipitation6, layer_weather_precipitation7, layer_weather_precipitation8,
-		layer_weather_significant_wave_height1, layer_weather_significant_wave_height2, layer_weather_significant_wave_height3, layer_weather_significant_wave_height4, layer_weather_significant_wave_height5, layer_weather_significant_wave_height6, layer_weather_significant_wave_height7, layer_weather_significant_wave_height8]);
-
-	if (!map.getCenter()) {
-		jumpTo(lon, lat, zoom);
-	}
+	 map.addLayer(layer_weather_precipitation1 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/precipitation/5/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_precipitation2 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/precipitation/7/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_precipitation3 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/precipitation/9/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_precipitation4 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/precipitation/11/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_precipitation5 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/precipitation/15/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_precipitation6 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/precipitation/19/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_precipitation7 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/precipitation/23/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_precipitation8 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/precipitation/27/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	// Wave height layers
+	 map.addLayer(layer_weather_significant_wave_height1 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/significant_wave_height/5/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_significant_wave_height2 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/significant_wave_height/7/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_significant_wave_height3 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/significant_wave_height/9/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_significant_wave_height4 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/significant_wave_height/11/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_significant_wave_height5 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/significant_wave_height/15/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_significant_wave_height6 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/significant_wave_height/19/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_significant_wave_height7 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/significant_wave_height/23/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
+	 map.addLayer(layer_weather_significant_wave_height8 = new ol.layer.Tile({ source: new ol.source.TileImage({url: 'http://www.openportguide.org/tiles/actual/significant_wave_height/27/{z}/{x}/{y}.png'}), isBaseLayer: false, visible: false }));
 }
 
 // Map event listener moved
@@ -284,18 +238,6 @@ function mapEventZoom(event) {
 	}
 	// Set cookie for remembering #zoomlevel
 	setCookie("weather_zoom",zoom);
-}
-
-function zoomIn() {
-	if (zoom <= 6) {
-		map.zoomIn();
-	}
-}
-
-function zoomOut() {
-	if (zoom >= 5) {
-		map.zoomOut();
-	}
 }
 
 function showWind() {
@@ -390,28 +332,28 @@ function setWindLayerVisible() {
 	clearWindLayerVisibility();
 	switch (layerNumber) {
 		case 1:
-			layer_weather_wind1.setVisibility(true);
+			layer_weather_wind1.setVisible(true);
 			break;
 		case 2:
-			layer_weather_wind2.setVisibility(true);
+			layer_weather_wind2.setVisible(true);
 			break;
 		case 3:
-			layer_weather_wind3.setVisibility(true);
+			layer_weather_wind3.setVisible(true);
 			break;
 		case 4:
-			layer_weather_wind4.setVisibility(true);
+			layer_weather_wind4.setVisible(true);
 			break;
 		case 5:
-			layer_weather_wind5.setVisibility(true);
+			layer_weather_wind5.setVisible(true);
 			break;
 		case 6:
-			layer_weather_wind6.setVisibility(true);
+			layer_weather_wind6.setVisible(true);
 			break;
 		case 7:
-			layer_weather_wind7.setVisibility(true);
+			layer_weather_wind7.setVisible(true);
 			break;
 		case 8:
-			layer_weather_wind8.setVisibility(true);
+			layer_weather_wind8.setVisible(true);
 			break;
 	}
 }
@@ -420,28 +362,28 @@ function setPressureLayerVisible() {
 	clearPressureLayerVisibility();
 	switch (layerNumber) {
 		case 1:
-			layer_weather_pressure1.setVisibility(true);
+			layer_weather_pressure1.setVisible(true);
 			break;
 		case 2:
-			layer_weather_pressure2.setVisibility(true);
+			layer_weather_pressure2.setVisible(true);
 			break;
 		case 3:
-			layer_weather_pressure3.setVisibility(true);
+			layer_weather_pressure3.setVisible(true);
 			break;
 		case 4:
-			layer_weather_pressure4.setVisibility(true);
+			layer_weather_pressure4.setVisible(true);
 			break;
 		case 5:
-			layer_weather_pressure5.setVisibility(true);
+			layer_weather_pressure5.setVisible(true);
 			break;
 		case 6:
-			layer_weather_pressure6.setVisibility(true);
+			layer_weather_pressure6.setVisible(true);
 			break;
 		case 7:
-			layer_weather_pressure7.setVisibility(true);
+			layer_weather_pressure7.setVisible(true);
 			break;
 		case 8:
-			layer_weather_pressure8.setVisibility(true);
+			layer_weather_pressure8.setVisible(true);
 			break;
 	}
 }
@@ -450,28 +392,28 @@ function setAirTemperatureLayerVisible() {
 	clearAirTemperatureLayerVisibility();
 	switch (layerNumber) {
 		case 1:
-			layer_weather_air_temperature1.setVisibility(true);
+			layer_weather_air_temperature1.setVisible(true);
 			break;
 		case 2:
-			layer_weather_air_temperature2.setVisibility(true);
+			layer_weather_air_temperature2.setVisible(true);
 			break;
 		case 3:
-			layer_weather_air_temperature3.setVisibility(true);
+			layer_weather_air_temperature3.setVisible(true);
 			break;
 		case 4:
-			layer_weather_air_temperature4.setVisibility(true);
+			layer_weather_air_temperature4.setVisible(true);
 			break;
 		case 5:
-			layer_weather_air_temperature5.setVisibility(true);
+			layer_weather_air_temperature5.setVisible(true);
 			break;
 		case 6:
-			layer_weather_air_temperature6.setVisibility(true);
+			layer_weather_air_temperature6.setVisible(true);
 			break;
 		case 7:
-			layer_weather_air_temperature7.setVisibility(true);
+			layer_weather_air_temperature7.setVisible(true);
 			break;
 		case 8:
-			layer_weather_air_temperature8.setVisibility(true);
+			layer_weather_air_temperature8.setVisible(true);
 			break;
 	}
 }
@@ -480,28 +422,28 @@ function setPrecipitationLayerVisible() {
 	clearPrecipitationLayerVisibility();
 	switch (layerNumber) {
 		case 1:
-			layer_weather_precipitation1.setVisibility(true);
+			layer_weather_precipitation1.setVisible(true);
 			break;
 		case 2:
-			layer_weather_precipitation2.setVisibility(true);
+			layer_weather_precipitation2.setVisible(true);
 			break;
 		case 3:
-			layer_weather_precipitation3.setVisibility(true);
+			layer_weather_precipitation3.setVisible(true);
 			break;
 		case 4:
-			layer_weather_precipitation4.setVisibility(true);
+			layer_weather_precipitation4.setVisible(true);
 			break;
 		case 5:
-			layer_weather_precipitation5.setVisibility(true);
+			layer_weather_precipitation5.setVisible(true);
 			break;
 		case 6:
-			layer_weather_precipitation6.setVisibility(true);
+			layer_weather_precipitation6.setVisible(true);
 			break;
 		case 7:
-			layer_weather_precipitation7.setVisibility(true);
+			layer_weather_precipitation7.setVisible(true);
 			break;
 		case 8:
-			layer_weather_precipitation8.setVisibility(true);
+			layer_weather_precipitation8.setVisible(true);
 			break;
 	}
 }
@@ -510,83 +452,83 @@ function setSignificantWaveHeightLayerVisible() {
 	clearSignificantWaveHeightLayerVisibility();
 	switch (layerNumber) {
 		case 1:
-			layer_weather_significant_wave_height1.setVisibility(true);
+			layer_weather_significant_wave_height1.setVisible(true);
 			break;
 		case 2:
-			layer_weather_significant_wave_height2.setVisibility(true);
+			layer_weather_significant_wave_height2.setVisible(true);
 			break;
 		case 3:
-			layer_weather_significant_wave_height3.setVisibility(true);
+			layer_weather_significant_wave_height3.setVisible(true);
 			break;
 		case 4:
-			layer_weather_significant_wave_height4.setVisibility(true);
+			layer_weather_significant_wave_height4.setVisible(true);
 			break;
 		case 5:
-			layer_weather_significant_wave_height5.setVisibility(true);
+			layer_weather_significant_wave_height5.setVisible(true);
 			break;
 		case 6:
-			layer_weather_significant_wave_height6.setVisibility(true);
+			layer_weather_significant_wave_height6.setVisible(true);
 			break;
 		case 7:
-			layer_weather_significant_wave_height7.setVisibility(true);
+			layer_weather_significant_wave_height7.setVisible(true);
 			break;
 		case 8:
-			layer_weather_significant_wave_height8.setVisibility(true);
+			layer_weather_significant_wave_height8.setVisible(true);
 			break;
 	}
 }
 
 function clearWindLayerVisibility() {
-	layer_weather_wind1.setVisibility(false);
-	layer_weather_wind2.setVisibility(false);
-	layer_weather_wind3.setVisibility(false);
-	layer_weather_wind4.setVisibility(false);
-	layer_weather_wind5.setVisibility(false);
-	layer_weather_wind6.setVisibility(false);
-	layer_weather_wind7.setVisibility(false);
-	layer_weather_wind8.setVisibility(false);
+	layer_weather_wind1.setVisible(false);
+	layer_weather_wind2.setVisible(false);
+	layer_weather_wind3.setVisible(false);
+	layer_weather_wind4.setVisible(false);
+	layer_weather_wind5.setVisible(false);
+	layer_weather_wind6.setVisible(false);
+	layer_weather_wind7.setVisible(false);
+	layer_weather_wind8.setVisible(false);
 }
 
 function clearPressureLayerVisibility() {
-	layer_weather_pressure1.setVisibility(false);
-	layer_weather_pressure2.setVisibility(false);
-	layer_weather_pressure3.setVisibility(false);
-	layer_weather_pressure4.setVisibility(false);
-	layer_weather_pressure5.setVisibility(false);
-	layer_weather_pressure6.setVisibility(false);
-	layer_weather_pressure7.setVisibility(false);
-	layer_weather_pressure8.setVisibility(false);
+	layer_weather_pressure1.setVisible(false);
+	layer_weather_pressure2.setVisible(false);
+	layer_weather_pressure3.setVisible(false);
+	layer_weather_pressure4.setVisible(false);
+	layer_weather_pressure5.setVisible(false);
+	layer_weather_pressure6.setVisible(false);
+	layer_weather_pressure7.setVisible(false);
+	layer_weather_pressure8.setVisible(false);
 }
 
 function clearAirTemperatureLayerVisibility() {
-	layer_weather_air_temperature1.setVisibility(false);
-	layer_weather_air_temperature2.setVisibility(false);
-	layer_weather_air_temperature3.setVisibility(false);
-	layer_weather_air_temperature4.setVisibility(false);
-	layer_weather_air_temperature5.setVisibility(false);
-	layer_weather_air_temperature6.setVisibility(false);
-	layer_weather_air_temperature7.setVisibility(false);
-	layer_weather_air_temperature8.setVisibility(false);
+	layer_weather_air_temperature1.setVisible(false);
+	layer_weather_air_temperature2.setVisible(false);
+	layer_weather_air_temperature3.setVisible(false);
+	layer_weather_air_temperature4.setVisible(false);
+	layer_weather_air_temperature5.setVisible(false);
+	layer_weather_air_temperature6.setVisible(false);
+	layer_weather_air_temperature7.setVisible(false);
+	layer_weather_air_temperature8.setVisible(false);
 }
 
 function clearPrecipitationLayerVisibility() {
-	layer_weather_precipitation1.setVisibility(false);
-	layer_weather_precipitation2.setVisibility(false);
-	layer_weather_precipitation3.setVisibility(false);
-	layer_weather_precipitation4.setVisibility(false);
-	layer_weather_precipitation5.setVisibility(false);
-	layer_weather_precipitation6.setVisibility(false);
-	layer_weather_precipitation7.setVisibility(false);
-	layer_weather_precipitation8.setVisibility(false);
+	layer_weather_precipitation1.setVisible(false);
+	layer_weather_precipitation2.setVisible(false);
+	layer_weather_precipitation3.setVisible(false);
+	layer_weather_precipitation4.setVisible(false);
+	layer_weather_precipitation5.setVisible(false);
+	layer_weather_precipitation6.setVisible(false);
+	layer_weather_precipitation7.setVisible(false);
+	layer_weather_precipitation8.setVisible(false);
 }
 
 function clearSignificantWaveHeightLayerVisibility() {
-	layer_weather_significant_wave_height1.setVisibility(false);
-	layer_weather_significant_wave_height2.setVisibility(false);
-	layer_weather_significant_wave_height3.setVisibility(false);
-	layer_weather_significant_wave_height4.setVisibility(false);
-	layer_weather_significant_wave_height5.setVisibility(false);
-	layer_weather_significant_wave_height6.setVisibility(false);
-	layer_weather_significant_wave_height7.setVisibility(false);
-	layer_weather_significant_wave_height8.setVisibility(false);
+	layer_weather_significant_wave_height1.setVisible(false);
+	layer_weather_significant_wave_height2.setVisible(false);
+	layer_weather_significant_wave_height3.setVisible(false);
+	layer_weather_significant_wave_height4.setVisible(false);
+	layer_weather_significant_wave_height5.setVisible(false);
+	layer_weather_significant_wave_height6.setVisible(false);
+	layer_weather_significant_wave_height7.setVisible(false);
+	layer_weather_significant_wave_height8.setVisible(false);
 }

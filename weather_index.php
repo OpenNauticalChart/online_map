@@ -13,12 +13,11 @@
 		<link rel="SHORTCUT ICON" href="./resources/icons/ONC-Logo_16px.png">
 		<link rel="stylesheet" type="text/css" href="map-full.css">
 		<link rel="stylesheet" type="text/css" href="weather.css">
-		<script type="text/javascript" src="./script/openlayers/OpenLayers.js"></script>
+		<link rel="stylesheet" type="text/css" href="./script/openlayers_3/ol.css">
+		<script type="text/javascript" src="./script/openlayers_3/ol.js"></script>
 		<script type="text/javascript" src="./script/json2.js"></script>
 		<script type="text/javascript" src="./script/map_weather.js"></script>
-		<script type="text/javascript" src="./script/OpenStreetMap.js"></script>
 		<script type="text/javascript" src="./script/utilities.js"></script>
-		<script type="text/javascript" src="./script/map_utils.js"></script>
 		<script type="text/javascript" src="./script/language/l10n.js"></script>
 		<script type="text/javascript" src="./script/language/localizations.js"></script>
 		<script type="text/javascript">
@@ -70,8 +69,8 @@
 		</div>
 		<div id="actionDialog"></div>
 		<? include('./include/topmenu_weather.inc'); ?>
-		<div id="timemenu" style="position:absolute; top:55px; left:12px;"></div>
-		<div id="comment" style="position:absolute; top:10px; right:12px;  visibility:hidden;">
+		<div id="timemenu" style="position:absolute; top:55px; left:50px;"></div>
+		<div id="comment" style="position:absolute; top:10px; right:5px;  visibility:hidden;">
 			<img src="./resources/map/WindScale.png"/>
 		</div>
 	</body>
