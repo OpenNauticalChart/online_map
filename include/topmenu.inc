@@ -37,6 +37,7 @@
 			<ul class="sub_menu">
 				<li onClick="javascript:showActionDialog(localize('%license', 'License'), loadFile('./dialog_pages/main_license/main_license_' + localize('%locale', 'en') + '.html', 'txt'));"><a><img alt="CC by SA" src="./resources/dialog/Cc-sa-32px.png" width="22" height="22" border="0"><span id="menu_help_license">License</span></a></li>
 				<li onClick="javascript:showActionDialog(localize('%map_key', 'Map key'), loadFile('./dialog_pages/map_key/map_key_sea_marks_' + localize('%locale', 'en') + '.html', 'txt'));"><a><img alt="Map key" src="./resources/dialog/map_key.png" width="22" height="22" border="0"><span id="menu_help_map_key">Map key</span></a></li>
+				<li><a href="https://forum.opennauticalchart.org/index.php" target="blank"><img alt="info" src="./resources/dialog/forum.png" width="22" height="22" border="0"><span id="menu_help_forum">Report bugs</span></a></li>
 				<li><a href="https://github.com/OpenNauticalChart/online_map/issues?state=open" target="blank"><img alt="info" src="./resources/dialog/report_bugs.png" width="22" height="22" border="0"><span id="menu_help_report_bugs">Report bugs</span></a></li>
 				<li onClick="javascript:showActionDialog(localize('%about', 'About'),  localize('%about_dialog', 'About'));"><a><img alt="info" src="./resources/dialog/info.png" width="22" height="22" border="0"><span id="menu_help_about">About</span></a></li>
 			</ul>
