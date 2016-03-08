@@ -9,7 +9,7 @@
 		<title>ONC - Weather</title>
 		<meta name="AUTHOR" content="Olaf Hannemann" >
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<meta name="date" content="2014-02-07">
+		<meta name="date" content="2016-03-08">
 		<link rel="SHORTCUT ICON" href="./resources/icons/ONC-Logo_16px.png">
 		<link rel="stylesheet" type="text/css" href="map-full.css">
 		<link rel="stylesheet" type="text/css" href="weather.css">
@@ -21,7 +21,7 @@
 		<script type="text/javascript" src="./script/language/l10n.js"></script>
 		<script type="text/javascript" src="./script/language/localizations.js"></script>
 		<script type="text/javascript">
-			// FIXME: needs to be conveted to a stand alone php file
+			// FIXME: needs to be converted to a stand alone php file
 			// Read time files from server and create the menu
 			function fillTimeDiv() {
 				var arrayTimeValues = new Array();
