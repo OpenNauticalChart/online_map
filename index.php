@@ -31,6 +31,6 @@
 		<div id="actionDialog">
             <br>
         </div>
-		 <? include('./include/topmenu.inc'); ?>
+		 <?php include('./include/topmenu.inc'); ?>
 	</body>
 </html>
