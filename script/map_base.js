@@ -200,7 +200,7 @@ function drawmap() {
 
 	// Add Layers to map-------------------------------------------------------------------------------------------------------
 	var layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
-	layer_seamarks = new OpenLayers.Layer.TMS("seamarks", "http://t1.openseamap.org/seamark/", { layerId: 3, numZoomLevels: 19, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true});
+	layer_seamarks = new OpenLayers.Layer.TMS("seamarks", "http://mini8.local/", { layerId: 3, numZoomLevels: 19, type: 'png', getURL:getTileURL, isBaseLayer:false, displayOutsideMaxExtent:true});
 	layer_grid = new OpenLayers.Layer.GridWGS("coordinate_grid", {visibility: true, zoomUnits: zoomUnits	});
 	map.addLayers([layer_mapnik, layer_seamarks, layer_grid]);
 	if (!map.getCenter()) {

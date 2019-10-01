@@ -73,3 +73,11 @@ function nominatim_callback(xmlHttp, infotext) {
 	showActionDialog(localize("%search_results", "Search results"), htmlText);
 }
 
+function josm_call() {
+  var left    = x2lon( map.getExtent().left   ).toFixed(5);
+  var right   = x2lon( map.getExtent().right  ).toFixed(5);
+  var top    = y2lat( map.getExtent().top    ).toFixed(5);
+  var bottom  = y2lat( map.getExtent().bottom ).toFixed(5);
+  var baseUrl = 'http://127.0.0.1:8111/load_and_zoom?left='+left+'&right='+right+'&top='+top+'&bottom='+bottom;
+  document.getElementById('josm_call_iframe').src=baseUrl;
+}
